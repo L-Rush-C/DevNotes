@@ -89,6 +89,7 @@ async function escanearArchivosExistentes() {
   // Limpiar lenguajes previos para evitar fantasmas
   estado.lenguajes = [];
   const nuevosLenguajes = [];
+  const existentes = new Set();
 
   try {
     for await (const [name, handle] of estado.carpetaHandle.entries()) {
@@ -104,6 +105,7 @@ async function escanearArchivosExistentes() {
           nota: '', // se cargará al abrir
         };
         nuevosLenguajes.push(lang);
+        existentes.add(name);
       }
     }
 
