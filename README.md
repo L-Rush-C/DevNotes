@@ -13,18 +13,6 @@ El sistema automatiza la creación de archivos `.md` mediante los siguientes pas
 3. **Estructuración:** Las primeras líneas del archivo se reservan para metadatos (configuración y origen), mientras que el resto contiene el cuerpo del apunte en texto plano o código.
 4. **Visualización:** La interfaz renderiza estos archivos aplicando un tema oscuro minimalista con identificadores visuales por lenguaje.
 
-## Especificaciones Visuales (UI)
-La interfaz utiliza una paleta de grises profundos con acentos cromáticos para categorizar el contenido:
-* **HTML:** Naranja
-* **CSS:** Azul
-* **JavaScript:** Amarillo
-* **SQL:** Aqua
-* **Python:** Amarillo/Azul
-
-## Tecnologías
-* **Frontend:** HTML5, CSS3, JavaScript (Vanilla).
-* **Almacenamiento:** Sistema de archivos local basado en el estándar Markdown.
-
 ---
 
 ### Notas de desarrollo
