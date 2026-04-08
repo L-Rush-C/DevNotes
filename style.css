@@ -819,6 +819,63 @@ textarea.input-campo { resize: vertical; }
   display: block;
 }
 
+/* ─── Nuevos estilos ───────────────────────────────────────── */
+.carpeta-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.carpeta-info #carpetaActual {
+  font-family: var(--fuente-mono);
+  font-size: 14px;
+  color: var(--texto-secundario);
+  background: var(--fondo-input);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radio);
+  border: 1px solid var(--borde-sutil);
+  flex: 1;
+}
+
+.boton-secundario {
+  background: var(--fondo-card);
+  color: var(--texto-secundario);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio);
+  padding: 0.5rem 1rem;
+  font-family: var(--fuente-display);
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--transicion);
+}
+
+.boton-secundario:hover {
+  background: var(--fondo-hover);
+  border-color: var(--acento-naranja);
+}
+
+.metadatos-panel {
+  background: var(--fondo-card);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-lg);
+  margin-bottom: 2rem;
+  overflow: hidden;
+  animation: entrar 0.2s ease;
+}
+
+.metadatos-cuerpo {
+  padding: 1.5rem;
+}
+
+.metadatos-cuerpo .fila-inputs {
+  margin-bottom: 1.5rem;
+}
+
+.metadatos-cuerpo .fila-inputs:last-child {
+  margin-bottom: 0;
+}
+
 /* ─── Responsive ──────────────────────────────────────────── */
 @media (max-width: 900px) {
   .contenido-principal { padding: 2rem 1.5rem; }

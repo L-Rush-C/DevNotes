@@ -3,14 +3,27 @@ const estado = {
   lenguajes: [],    // [{id, nombre, logo, colores:[], nota:'', nombreArchivo:''}]
   activo: null,
   modoEditor: false,
+  modoMetadatos: false,
   carpetaHandle: null,  // FileSystemDirectoryHandle
 };
 
 // ─── Inicialización ───────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  // Configurar Marked con syntax highlighting
+  marked.setOptions({
+    highlight: function(code, lang) {
+      if (typeof hljs !== 'undefined') {
+        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+        return hljs.highlight(code, { language }).value;
+      }
+      return code;
+    }
+  });
+
   cargarMetadatos();
   renderizarSidebar();
   mostrarInicio();
+  actualizarCarpetaUI();
 
   document.querySelector('.logo-lateral').addEventListener('click', mostrarInicio);
   document.getElementById('btnAbrirModal').addEventListener('click', () => {
@@ -24,18 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // El contenido de cada nota vive en su propio .md dentro de la carpeta elegida.
 
 function guardarMetadatos() {
-  const meta = estado.lenguajes.map(({ id, nombre, logo, colores, nombreArchivo }) => ({
-    id, nombre, logo, colores, nombreArchivo,
-  }));
-  localStorage.setItem('devnotes_meta', JSON.stringify(meta));
+  // No guardar lenguajes en localStorage, solo otros datos si es necesario
+  // Para portabilidad, todo viene de los archivos
 }
 
 function cargarMetadatos() {
-  const raw = localStorage.getItem('devnotes_meta');
-  if (raw) {
-    // nota vacía por defecto; se llenará al abrir cada lenguaje leyendo el archivo
-    estado.lenguajes = JSON.parse(raw).map(m => ({ ...m, nota: '', logo: m.logo || m.svg || '' }));
-  }
+  // No cargar lenguajes desde localStorage
+  estado.lenguajes = [];
 }
 
 // ─── File System Access API ───────────────────────────────────────────────────
@@ -48,6 +56,8 @@ async function elegirCarpeta() {
   try {
     estado.carpetaHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
     notificar(`📁 Carpeta "${estado.carpetaHandle.name}" conectada`);
+    actualizarCarpetaUI();
+    await escanearArchivosExistentes();
     return true;
   } catch {
     return false; // usuario canceló
@@ -58,6 +68,55 @@ async function asegurarCarpeta() {
   if (estado.carpetaHandle) return true;
   notificar('Elige la carpeta donde se guardarán las notas…');
   return await elegirCarpeta();
+}
+
+function actualizarCarpetaUI() {
+  const el = document.getElementById('carpetaActual');
+  if (estado.carpetaHandle) {
+    el.textContent = estado.carpetaHandle.name;
+  } else {
+    el.textContent = 'No seleccionada';
+  }
+}
+
+async function cambiarCarpeta() {
+  await elegirCarpeta();
+}
+
+async function escanearArchivosExistentes() {
+  if (!estado.carpetaHandle) return;
+
+  // Limpiar lenguajes previos para evitar fantasmas
+  estado.lenguajes = [];
+  const nuevosLenguajes = [];
+
+  try {
+    for await (const [name, handle] of estado.carpetaHandle.entries()) {
+      if (name.endsWith('.md') && !existentes.has(name)) {
+        // Crear lenguaje basado en el archivo
+        const nombre = name.replace('.md', '').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()); // Capitalizar
+        const lang = {
+          id: generarId(),
+          nombre,
+          logo: logoPorDefecto(nombre),
+          colores: ['#4A90D9'],
+          nombreArchivo: name,
+          nota: '', // se cargará al abrir
+        };
+        nuevosLenguajes.push(lang);
+      }
+    }
+
+    if (nuevosLenguajes.length > 0) {
+      estado.lenguajes.push(...nuevosLenguajes);
+      renderizarSidebar();
+      notificar(`✓ ${nuevosLenguajes.length} nota(s) encontrada(s) e importada(s)`);
+    } else {
+      renderizarSidebar(); // actualizar sidebar vacía
+    }
+  } catch (e) {
+    notificar('⚠ Error al escanear archivos: ' + e.message);
+  }
 }
 
 async function escribirArchivo(nombreArchivo, contenido) {
@@ -145,8 +204,11 @@ function renderizarSidebar() {
 function mostrarInicio() {
   estado.activo = null;
   estado.modoEditor = false;
+  estado.modoMetadatos = false;
   mostrar(document.getElementById('pantallaInicio'));
   ocultar(document.getElementById('pantallaNota'));
+  ocultar(document.getElementById('editorPanel'));
+  ocultar(document.getElementById('metadatosPanel'));
   document.querySelectorAll('.enlace-nav').forEach(b => b.classList.remove('activo'));
 }
 
@@ -158,14 +220,40 @@ async function abrirLenguaje(id) {
   if (!await asegurarCarpeta()) return;
 
   const contenido = await leerArchivo(lang.nombreArchivo);
-  lang.nota = contenido ?? `# ${lang.nombre}\n\nEmpieza a escribir tus apuntes aquí…`;
+  if (contenido) {
+    const lines = contenido.split('\n');
+    if (lines[0] === '---') {
+      const endIndex = lines.indexOf('---', 1);
+      if (endIndex > 0) {
+        const frontmatterStr = lines.slice(1, endIndex).join('\n');
+        try {
+          const meta = jsyaml.load(frontmatterStr);
+          if (meta.nombre) lang.nombre = meta.nombre;
+          if (meta.logo) lang.logo = meta.logo;
+          if (meta.colores) lang.colores = meta.colores;
+          lang.nota = lines.slice(endIndex + 1).join('\n').trim();
+        } catch (e) {
+          console.error('Error parsing frontmatter:', e);
+          lang.nota = contenido;
+        }
+      } else {
+        lang.nota = contenido;
+      }
+    } else {
+      lang.nota = contenido;
+    }
+  } else {
+    lang.nota = `# ${lang.nombre}\n\nEmpieza a escribir tus apuntes aquí…`;
+  }
 
   estado.activo = id;
   estado.modoEditor = false;
+  estado.modoMetadatos = false;
 
   ocultar(document.getElementById('pantallaInicio'));
   mostrar(document.getElementById('pantallaNota'));
   ocultar(document.getElementById('editorPanel'));
+  ocultar(document.getElementById('metadatosPanel'));
 
   document.querySelectorAll('.enlace-nav').forEach(b => {
     b.classList.toggle('activo', b.dataset.id === id);
@@ -198,6 +286,8 @@ function toggleEditor() {
   estado.modoEditor = !estado.modoEditor;
 
   if (estado.modoEditor) {
+    // Cerrar metadatos si está abierto
+    if (estado.modoMetadatos) toggleEditarMetadatos();
     const lang = estado.lenguajes.find(l => l.id === estado.activo);
     if (!lang) return;
     document.getElementById('editorTexto').value = lang.nota;
@@ -237,9 +327,138 @@ async function guardarNota() {
   const texto = document.getElementById('editorTexto').value;
   lang.nota = texto;
 
-  await escribirArchivo(lang.nombreArchivo, texto);
+  // Generar frontmatter con metadatos
+  const meta = { nombre: lang.nombre, logo: lang.logo, colores: lang.colores };
+  const frontmatter = '---\n' + jsyaml.dump(meta) + '---\n\n';
+  const contenidoCompleto = frontmatter + texto;
+
+  await escribirArchivo(lang.nombreArchivo, contenidoCompleto);
   renderizarNota(texto);
   notificar(`✓ Guardado → ${lang.nombreArchivo}`);
+}
+
+// ─── Editar metadatos ─────────────────────────────────────────────────────────
+function toggleEditarMetadatos() {
+  const panel = document.getElementById('metadatosPanel');
+  const btn = document.getElementById('btnEditarMetadatos');
+  estado.modoMetadatos = !estado.modoMetadatos;
+
+  if (estado.modoMetadatos) {
+    // Cerrar editor si está abierto
+    if (estado.modoEditor) toggleEditor();
+    const lang = estado.lenguajes.find(l => l.id === estado.activo);
+    if (!lang) return;
+    document.getElementById('inputEditarNombre').value = lang.nombre;
+    document.getElementById('inputEditarLogo').value = lang.logo;
+    renderizarColoresEditar(lang.colores);
+    mostrar(panel);
+    btn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg> Cerrar`;
+  } else {
+    ocultar(panel);
+    btn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+      </svg> Editar info`;
+  }
+}
+
+function renderizarColoresEditar(colores) {
+  const container = document.getElementById('coloresEditarContainer');
+  container.innerHTML = '';
+  colores.forEach((color, index) => {
+    const fila = document.createElement('div');
+    fila.className = 'color-fila';
+    fila.innerHTML = `
+      <div class="color-preview" id="previewEditar${index}" style="background:${color}"></div>
+      <input type="text" class="input-campo input-color" value="${color}" maxlength="7"
+        oninput="actualizarPreviewColorEditar(this, ${index})">
+      <button class="boton-quitar-color" onclick="quitarColorEditar(this)" title="Quitar">✕</button>
+    `;
+    container.appendChild(fila);
+  });
+  if (colores.length === 0) {
+    agregarFilaColorEditar();
+  }
+}
+
+function actualizarPreviewColorEditar(input, index) {
+  const val = input.value.trim();
+  const prev = document.getElementById('previewEditar' + index);
+  if (prev && /^#[0-9A-Fa-f]{3,6}$/.test(val)) prev.style.background = val;
+}
+
+function agregarFilaColorEditar() {
+  const container = document.getElementById('coloresEditarContainer');
+  const index = container.children.length;
+  const fila = document.createElement('div');
+  fila.className = 'color-fila';
+  fila.innerHTML = `
+    <div class="color-preview" id="previewEditar${index}" style="background:#888"></div>
+    <input type="text" class="input-campo input-color" placeholder="#888888" maxlength="7"
+      oninput="actualizarPreviewColorEditar(this, ${index})">
+    <button class="boton-quitar-color" onclick="quitarColorEditar(this)" title="Quitar">✕</button>
+  `;
+  container.appendChild(fila);
+}
+
+function quitarColorEditar(btn) {
+  const container = document.getElementById('coloresEditarContainer');
+  if (container.children.length <= 1) {
+    notificar('Necesitas al menos un color'); return;
+  }
+  btn.closest('.color-fila').remove();
+}
+
+async function guardarMetadatosNota() {
+  const lang = estado.lenguajes.find(l => l.id === estado.activo);
+  if (!lang) return;
+
+  const nuevoNombre = document.getElementById('inputEditarNombre').value.trim();
+  const nuevoLogo = document.getElementById('inputEditarLogo').value.trim();
+
+  if (!nuevoNombre) {
+    notificar('⚠ Escribe el nombre del lenguaje');
+    document.getElementById('inputEditarNombre').focus();
+    return;
+  }
+
+  const nuevosColores = [];
+  document.querySelectorAll('#coloresEditarContainer .input-color').forEach(input => {
+    const val = input.value.trim();
+    if (val && /^#[0-9A-Fa-f]{3,6}$/.test(val)) nuevosColores.push(val);
+  });
+
+  // Actualizar lang
+  lang.nombre = nuevoNombre;
+  lang.logo = nuevoLogo;
+  lang.colores = nuevosColores;
+
+  // Reescribir el archivo con nuevo frontmatter
+  const contenidoActual = await leerArchivo(lang.nombreArchivo);
+  if (contenidoActual) {
+    const lines = contenidoActual.split('\n');
+    let nota = contenidoActual;
+    if (lines[0] === '---') {
+      const endIndex = lines.indexOf('---', 1);
+      if (endIndex > 0) {
+        nota = lines.slice(endIndex + 1).join('\n').trim();
+      }
+    }
+    const meta = { nombre: lang.nombre, logo: lang.logo, colores: lang.colores };
+    const frontmatter = '---\n' + jsyaml.dump(meta) + '---\n\n';
+    const contenidoCompleto = frontmatter + nota;
+    await escribirArchivo(lang.nombreArchivo, contenidoCompleto);
+  }
+
+  renderizarSidebar();
+  abrirLenguaje(lang.id); // re-renderizar la nota
+  notificar('✓ Información actualizada');
 }
 
 // ─── Agregar lenguaje ─────────────────────────────────────────────────────────
@@ -274,7 +493,12 @@ async function agregarLenguaje() {
     nombreArchivo,
   };
 
-  await escribirArchivo(nombreArchivo, contenidoInicial);
+  // Generar frontmatter
+  const meta = { nombre: nuevoLang.nombre, logo: nuevoLang.logo, colores: nuevoLang.colores };
+  const frontmatter = '---\n' + jsyaml.dump(meta) + '---\n\n';
+  const contenidoCompleto = frontmatter + contenidoInicial;
+
+  await escribirArchivo(nombreArchivo, contenidoCompleto);
 
   estado.lenguajes.push(nuevoLang);
   guardarMetadatos();
