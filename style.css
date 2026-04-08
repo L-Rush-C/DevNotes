@@ -687,6 +687,52 @@ textarea.input-campo { resize: vertical; }
   color: var(--codigo-texto);
 }
 
+/* Base: todo el código en verde por defecto */
+.nota-contenido pre code.hljs,
+.nota-contenido pre code.hljs * {
+  color: var(--codigo-texto) !important;
+  background: transparent !important;
+}
+
+/* Strings y textos entre comillas → amarillo dorado */
+.nota-contenido pre code.hljs .hljs-string,
+.nota-contenido pre code.hljs .hljs-template-string,
+.nota-contenido pre code.hljs .hljs-template-tag,
+.nota-contenido pre code.hljs .hljs-attr,
+.nota-contenido pre code.hljs .hljs-attribute,
+.nota-contenido pre code.hljs .hljs-addition {
+  color: var(--acento-naranja) !important;
+}
+
+/* Símbolos = > < / ( ) → blanco */
+.nota-contenido pre code.hljs .hljs-operator,
+.nota-contenido pre code.hljs .hljs-punctuation,
+.nota-contenido pre code.hljs .hljs-tag .hljs-punctuation,
+.nota-contenido pre code.hljs .hljs-meta,
+.nota-contenido pre code.hljs .hljs-meta .hljs-keyword {
+  color: #ffffff !important;
+}
+
+/* Keywords, nombres, funciones, números → verde */
+.nota-contenido pre code.hljs .hljs-keyword,
+.nota-contenido pre code.hljs .hljs-built_in,
+.nota-contenido pre code.hljs .hljs-title,
+.nota-contenido pre code.hljs .hljs-name,
+.nota-contenido pre code.hljs .hljs-params,
+.nota-contenido pre code.hljs .hljs-regexp,
+.nota-contenido pre code.hljs .hljs-number,
+.nota-contenido pre code.hljs .hljs-subst,
+.nota-contenido pre code.hljs .hljs-selector-tag,
+.nota-contenido pre code.hljs .hljs-selector-id,
+.nota-contenido pre code.hljs .hljs-selector-class,
+.nota-contenido pre code.hljs .hljs-symbol,
+.nota-contenido pre code.hljs .hljs-variable,
+.nota-contenido pre code.hljs .hljs-comment,
+.nota-contenido pre code.hljs .hljs-quote,
+.nota-contenido pre code.hljs .hljs-tag {
+  color: var(--codigo-texto) !important;
+}
+
 .nota-contenido ul,
 .nota-contenido ol {
   margin: 0.75rem 0 0.75rem 1.5rem;
@@ -888,4 +934,31 @@ textarea.input-campo { resize: vertical; }
   .contenido-principal { padding: 1.5rem 1rem; }
   .titulo-principal { font-size: 2rem; }
   .nota-encabezado { flex-direction: column; align-items: flex-start; }
+}
+
+/* ─── Coloreado de código personalizado ──────────────────── */
+.dn-code {
+  display: block;
+  font-family: var(--fuente-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--codigo-texto);
+}
+
+/* Verde: texto por defecto */
+.dn-verde {
+  color: #7ec8a4;
+}
+
+/* Amarillo: strings entre comillas */
+.dn-amarillo {
+  color: #c9a86c;
+}
+
+/* Blanco: símbolos = > < / ( ) { } [ ] ; : , . */
+.dn-blanco {
+  color: #ffffff;
 }

@@ -9,16 +9,45 @@ const estado = {
 
 // ─── Inicialización ───────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  // Configurar Marked con syntax highlighting
-  marked.setOptions({
-    highlight: function(code, lang) {
-      if (typeof hljs !== 'undefined') {
-        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-        return hljs.highlight(code, { language }).value;
+  // Coloreado propio: strings=amarillo, símbolos=blanco, resto=verde
+  function colorearCodigo(raw) {
+    // Escapar HTML primero
+    let s = raw
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
+    // Tokenizar en orden: strings primero, luego símbolos, el resto queda verde
+    const tokens = [];
+    const regex = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)|(=|&gt;|&lt;|\/|\(|\)|\{|\}|\[|\]|;|:|,|\.)/g;
+    let last = 0;
+    let m;
+    while ((m = regex.exec(s)) !== null) {
+      if (m.index > last) {
+        tokens.push('<span class="dn-verde">' + s.slice(last, m.index) + '</span>');
       }
-      return code;
+      if (m[1]) {
+        // string entre comillas → amarillo
+        tokens.push('<span class="dn-amarillo">' + m[1] + '</span>');
+      } else {
+        // símbolo → blanco
+        tokens.push('<span class="dn-blanco">' + m[2] + '</span>');
+      }
+      last = m.index + m[0].length;
     }
-  });
+    if (last < s.length) {
+      tokens.push('<span class="dn-verde">' + s.slice(last) + '</span>');
+    }
+    return tokens.join('');
+  }
+
+  const renderer = new marked.Renderer();
+  renderer.code = function(code, lang) {
+    const rawCode = typeof code === 'object' ? code.text : code;
+    const colored = colorearCodigo(rawCode);
+    return '<pre><code class="dn-code">' + colored + '</code></pre>';
+  };
+  marked.use({ renderer });
 
   cargarMetadatos();
   renderizarSidebar();
@@ -86,27 +115,24 @@ async function cambiarCarpeta() {
 async function escanearArchivosExistentes() {
   if (!estado.carpetaHandle) return;
 
-  // Limpiar lenguajes previos para evitar fantasmas
   estado.lenguajes = [];
   const nuevosLenguajes = [];
-  const existentes = new Set();
 
   try {
     for await (const [name, handle] of estado.carpetaHandle.entries()) {
-      if (name.endsWith('.md') && !existentes.has(name)) {
-        // Crear lenguaje basado en el archivo
-        const nombre = name.replace('.md', '').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()); // Capitalizar
-        const lang = {
-          id: generarId(),
-          nombre,
-          logo: logoPorDefecto(nombre),
-          colores: ['#4A90D9'],
-          nombreArchivo: name,
-          nota: '', // se cargará al abrir
-        };
-        nuevosLenguajes.push(lang);
-        existentes.add(name);
-      }
+      if (!name.endsWith('.md')) continue;
+      if (estado.lenguajes.some(l => l.nombreArchivo === name)) continue;
+
+      const nombre = name.replace('.md', '').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      const lang = {
+        id: generarId(),
+        nombre,
+        logo: logoPorDefecto(nombre),
+        colores: ['#4A90D9'],
+        nombreArchivo: name,
+        nota: '',
+      };
+      nuevosLenguajes.push(lang);
     }
 
     if (nuevosLenguajes.length > 0) {
@@ -114,7 +140,7 @@ async function escanearArchivosExistentes() {
       renderizarSidebar();
       notificar(`✓ ${nuevosLenguajes.length} nota(s) encontrada(s) e importada(s)`);
     } else {
-      renderizarSidebar(); // actualizar sidebar vacía
+      renderizarSidebar();
     }
   } catch (e) {
     notificar('⚠ Error al escanear archivos: ' + e.message);
@@ -173,6 +199,11 @@ function notificar(msg, dur = 2800) {
   mostrar(n);
   clearTimeout(n._t);
   n._t = setTimeout(() => ocultar(n), dur);
+}
+
+function cerrarModal() {
+  ocultar(document.getElementById('overlay'));
+  ocultar(document.getElementById('modal'));
 }
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
