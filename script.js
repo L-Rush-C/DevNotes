@@ -8,7 +8,7 @@ const estado = {
 };
 
 // ─── Inicialización ───────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Coloreado propio: strings=amarillo, símbolos=blanco, resto=verde
   function colorearCodigo(raw) {
     // Escapar HTML primero
@@ -50,9 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
   marked.use({ renderer });
 
   cargarMetadatos();
+  
+  // Cargar automáticamente las notas desde Notas/
+  await cargarNotasAutomaticamente();
+  
   renderizarSidebar();
   mostrarInicio();
-  actualizarCarpetaUI();
 
   document.querySelector('.logo-lateral').addEventListener('click', mostrarInicio);
   document.getElementById('btnAbrirModal').addEventListener('click', () => {
@@ -75,104 +78,88 @@ function cargarMetadatos() {
   estado.lenguajes = [];
 }
 
-// ─── File System Access API ───────────────────────────────────────────────────
+// ─── Cargar notas automáticamente desde Notas/index.json ─────────────────────
 
-async function elegirCarpeta() {
-  if (!('showDirectoryPicker' in window)) {
-    notificar('⚠ Usa Chrome o Edge — Firefox no soporta la File System Access API');
-    return false;
-  }
+async function cargarNotasAutomaticamente() {
   try {
-    estado.carpetaHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
-    notificar(`📁 Carpeta "${estado.carpetaHandle.name}" conectada`);
-    actualizarCarpetaUI();
-    await escanearArchivosExistentes();
-    return true;
-  } catch {
-    return false; // usuario canceló
-  }
-}
-
-async function asegurarCarpeta() {
-  if (estado.carpetaHandle) return true;
-  notificar('Elige la carpeta donde se guardarán las notas…');
-  return await elegirCarpeta();
-}
-
-function actualizarCarpetaUI() {
-  const el = document.getElementById('carpetaActual');
-  if (estado.carpetaHandle) {
-    el.textContent = estado.carpetaHandle.name;
-  } else {
-    el.textContent = 'No seleccionada';
-  }
-}
-
-async function cambiarCarpeta() {
-  await elegirCarpeta();
-}
-
-async function escanearArchivosExistentes() {
-  if (!estado.carpetaHandle) return;
-
-  estado.lenguajes = [];
-  const nuevosLenguajes = [];
-
-  try {
-    for await (const [name, handle] of estado.carpetaHandle.entries()) {
-      if (!name.endsWith('.md')) continue;
-      if (estado.lenguajes.some(l => l.nombreArchivo === name)) continue;
-
-      const nombre = name.replace('.md', '').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-      const lang = {
-        id: generarId(),
-        nombre,
-        logo: logoPorDefecto(nombre),
-        colores: ['#4A90D9'],
-        nombreArchivo: name,
-        nota: '',
-      };
-      nuevosLenguajes.push(lang);
+    console.log('📂 Cargando lista de notas desde Notas/index.json...');
+    
+    // Cargar el index.json
+    const respuesta = await fetch('./Notas/index.json');
+    if (!respuesta.ok) {
+      console.error('❌ No se pudo cargar el index.json');
+      notificar('⚠ No se encontró la carpeta de notas');
+      return;
     }
 
-    if (nuevosLenguajes.length > 0) {
-      estado.lenguajes.push(...nuevosLenguajes);
+    const archivos = await respuesta.json();
+    console.log(`✓ Se encontraron ${archivos.length} archivo(s)`);
+
+    // Cargar cada archivo .md
+    for (const item of archivos) {
+      await cargarNotaDesdeURL(item.nombreArchivo, item.nombre);
+    }
+
+    if (estado.lenguajes.length > 0) {
       renderizarSidebar();
-      notificar(`✓ ${nuevosLenguajes.length} nota(s) encontrada(s) e importada(s)`);
-    } else {
-      renderizarSidebar();
+      console.log(`✓ ${estado.lenguajes.length} nota(s) cargada(s)`);
+      notificar(`✓ ${estado.lenguajes.length} nota(s) cargada(s) automáticamente`);
     }
   } catch (e) {
-    notificar('⚠ Error al escanear archivos: ' + e.message);
+    console.error('❌ Error cargando notas:', e);
+    notificar('⚠ Error al cargar las notas: ' + e.message);
   }
 }
 
-async function escribirArchivo(nombreArchivo, contenido) {
+async function cargarNotaDesdeURL(nombreArchivo, nombrePredeterminado) {
   try {
-    const handle = await estado.carpetaHandle.getFileHandle(nombreArchivo, { create: true });
-    const writable = await handle.createWritable();
-    await writable.write(contenido);
-    await writable.close();
+    const url = `./Notas/${nombreArchivo}`;
+    const respuesta = await fetch(url);
+    
+    if (!respuesta.ok) {
+      console.warn(`⚠ No se pudo cargar ${nombreArchivo}`);
+      return;
+    }
+
+    const contenido = await respuesta.text();
+    console.log(`✓ Cargado: ${nombreArchivo}`);
+
+    // Parsear frontmatter
+    let nombre = nombrePredeterminado;
+    let logo = null;
+    let colores = ['#4A90D9'];
+    let nota = contenido;
+
+    const lines = contenido.split('\n');
+    if (lines[0] === '---') {
+      const endIndex = lines.indexOf('---', 1);
+      if (endIndex > 0) {
+        const frontmatterStr = lines.slice(1, endIndex).join('\n');
+        try {
+          const meta = jsyaml.load(frontmatterStr);
+          if (meta.nombre) nombre = meta.nombre;
+          if (meta.logo) logo = meta.logo;
+          if (meta.colores) colores = meta.colores;
+          nota = lines.slice(endIndex + 1).join('\n').trim();
+        } catch (e) {
+          console.warn(`⚠ Error parseando frontmatter de ${nombreArchivo}:`, e);
+        }
+      }
+    }
+
+    // Crear objeto de lenguaje
+    const lang = {
+      id: generarId(),
+      nombre,
+      logo: logo || logoPorDefecto(nombre),
+      colores,
+      nombreArchivo,
+      nota,
+    };
+
+    estado.lenguajes.push(lang);
   } catch (e) {
-    notificar('⚠ No se pudo escribir el archivo: ' + e.message);
-  }
-}
-
-async function leerArchivo(nombreArchivo) {
-  try {
-    const handle = await estado.carpetaHandle.getFileHandle(nombreArchivo);
-    const file = await handle.getFile();
-    return await file.text();
-  } catch {
-    return null; // no existe aún
-  }
-}
-
-async function eliminarArchivo(nombreArchivo) {
-  try {
-    await estado.carpetaHandle.removeEntry(nombreArchivo);
-  } catch {
-    // no existía, sin problema
+    console.error(`❌ Error cargando ${nombreArchivo}:`, e);
   }
 }
 
@@ -248,36 +235,6 @@ function mostrarInicio() {
 async function abrirLenguaje(id) {
   const lang = estado.lenguajes.find(l => l.id === id);
   if (!lang) return;
-
-  // Necesitamos la carpeta para leer el archivo
-  if (!await asegurarCarpeta()) return;
-
-  const contenido = await leerArchivo(lang.nombreArchivo);
-  if (contenido) {
-    const lines = contenido.split('\n');
-    if (lines[0] === '---') {
-      const endIndex = lines.indexOf('---', 1);
-      if (endIndex > 0) {
-        const frontmatterStr = lines.slice(1, endIndex).join('\n');
-        try {
-          const meta = jsyaml.load(frontmatterStr);
-          if (meta.nombre) lang.nombre = meta.nombre;
-          if (meta.logo) lang.logo = meta.logo;
-          if (meta.colores) lang.colores = meta.colores;
-          lang.nota = lines.slice(endIndex + 1).join('\n').trim();
-        } catch (e) {
-          console.error('Error parsing frontmatter:', e);
-          lang.nota = contenido;
-        }
-      } else {
-        lang.nota = contenido;
-      }
-    } else {
-      lang.nota = contenido;
-    }
-  } else {
-    lang.nota = `# ${lang.nombre}\n\nEmpieza a escribir tus apuntes aquí…`;
-  }
 
   estado.activo = id;
   estado.modoEditor = false;
@@ -355,19 +312,18 @@ function previsualizarEditor() {
 async function guardarNota() {
   const lang = estado.lenguajes.find(l => l.id === estado.activo);
   if (!lang) return;
-  if (!await asegurarCarpeta()) return;
 
   const texto = document.getElementById('editorTexto').value;
   lang.nota = texto;
 
-  // Generar frontmatter con metadatos
-  const meta = { nombre: lang.nombre, logo: lang.logo, colores: lang.colores };
-  const frontmatter = '---\n' + jsyaml.dump(meta) + '---\n\n';
-  const contenidoCompleto = frontmatter + texto;
+  // Guardar en localStorage como borrador
+  localStorage.setItem(`nota_${lang.id}`, JSON.stringify({
+    contenido: texto,
+    fecha: new Date().toISOString()
+  }));
 
-  await escribirArchivo(lang.nombreArchivo, contenidoCompleto);
   renderizarNota(texto);
-  notificar(`✓ Guardado → ${lang.nombreArchivo}`);
+  notificar(`✓ Borrador guardado`);
 }
 
 // ─── Editar metadatos ─────────────────────────────────────────────────────────
@@ -467,31 +423,21 @@ async function guardarMetadatosNota() {
     if (val && /^#[0-9A-Fa-f]{3,6}$/.test(val)) nuevosColores.push(val);
   });
 
-  // Actualizar lang
+  // Actualizar lang (solo en memoria, no se puede guardar en GitHub Pages)
   lang.nombre = nuevoNombre;
   lang.logo = nuevoLogo;
   lang.colores = nuevosColores;
 
-  // Reescribir el archivo con nuevo frontmatter
-  const contenidoActual = await leerArchivo(lang.nombreArchivo);
-  if (contenidoActual) {
-    const lines = contenidoActual.split('\n');
-    let nota = contenidoActual;
-    if (lines[0] === '---') {
-      const endIndex = lines.indexOf('---', 1);
-      if (endIndex > 0) {
-        nota = lines.slice(endIndex + 1).join('\n').trim();
-      }
-    }
-    const meta = { nombre: lang.nombre, logo: lang.logo, colores: lang.colores };
-    const frontmatter = '---\n' + jsyaml.dump(meta) + '---\n\n';
-    const contenidoCompleto = frontmatter + nota;
-    await escribirArchivo(lang.nombreArchivo, contenidoCompleto);
-  }
+  // Guardar en localStorage
+  localStorage.setItem(`metadata_${lang.id}`, JSON.stringify({
+    nombre: lang.nombre,
+    logo: lang.logo,
+    colores: lang.colores
+  }));
 
   renderizarSidebar();
   abrirLenguaje(lang.id); // re-renderizar la nota
-  notificar('✓ Información actualizada');
+  notificar('✓ Información actualizada (borrador local)');
 }
 
 // ─── Agregar lenguaje ─────────────────────────────────────────────────────────
@@ -506,15 +452,12 @@ async function agregarLenguaje() {
     return;
   }
 
-  if (!await asegurarCarpeta()) return;
-
   const colores = [];
   document.querySelectorAll('.input-color').forEach(input => {
     const val = input.value.trim();
     if (val && /^#[0-9A-Fa-f]{3,6}$/.test(val)) colores.push(val);
   });
 
-  const nombreArchivo = nombreSeguro(nombre);
   const contenidoInicial = nota || `# ${nombre}\n\nEmpieza a escribir tus apuntes aquí…`;
 
   const nuevoLang = {
@@ -523,18 +466,22 @@ async function agregarLenguaje() {
     logo: logo || logoPorDefecto(nombre),
     colores,
     nota: contenidoInicial,
-    nombreArchivo,
+    nombreArchivo: nombreSeguro(nombre),
   };
 
-  // Generar frontmatter
-  const meta = { nombre: nuevoLang.nombre, logo: nuevoLang.logo, colores: nuevoLang.colores };
-  const frontmatter = '---\n' + jsyaml.dump(meta) + '---\n\n';
-  const contenidoCompleto = frontmatter + contenidoInicial;
+  // Guardar en localStorage como borrador
+  localStorage.setItem(`metadata_${nuevoLang.id}`, JSON.stringify({
+    nombre: nuevoLang.nombre,
+    logo: nuevoLang.logo,
+    colores: nuevoLang.colores
+  }));
 
-  await escribirArchivo(nombreArchivo, contenidoCompleto);
+  localStorage.setItem(`nota_${nuevoLang.id}`, JSON.stringify({
+    contenido: contenidoInicial,
+    fecha: new Date().toISOString()
+  }));
 
   estado.lenguajes.push(nuevoLang);
-  guardarMetadatos();
   renderizarSidebar();
 
   document.getElementById('inputNombre').value = '';
@@ -542,7 +489,7 @@ async function agregarLenguaje() {
   document.getElementById('inputNota').value = '';
   resetearColores();
 
-  notificar(`✓ ${nombre} creado → ${nombreArchivo}`);
+  notificar(`✓ "${nombre}" agregado como borrador local (para publicar, agregarlo a Notas/index.json)`);
   setTimeout(() => abrirLenguaje(nuevoLang.id), 250);
 }
 
@@ -603,16 +550,21 @@ async function eliminarLenguajeActual() {
   const lang = estado.lenguajes.find(l => l.id === estado.activo);
   if (!lang) return;
 
-  if (!confirm(`¿Eliminar "${lang.nombre}"?\nTambién se borrará ${lang.nombreArchivo} de la carpeta.`)) return;
+  if (!confirm(`¿Eliminar "${lang.nombre}"?`)) return;
 
-  if (estado.carpetaHandle) await eliminarArchivo(lang.nombreArchivo);
+  // Limpiar localStorage
+  localStorage.removeItem(`metadata_${lang.id}`);
+  localStorage.removeItem(`nota_${lang.id}`);
 
   estado.lenguajes = estado.lenguajes.filter(l => l.id !== estado.activo);
   estado.activo = null;
-  guardarMetadatos();
   renderizarSidebar();
   mostrarInicio();
-  notificar(`✓ ${lang.nombre} eliminado`);
+  
+  const msg = lang.nombreArchivo 
+    ? `✓ "${lang.nombre}" eliminado (para publicar cambios, actualiza Notas/index.json en GitHub)`
+    : `✓ "${lang.nombre}" eliminado`;
+  notificar(msg);
 }
 
 // ─── Atajos de teclado ────────────────────────────────────────────────────────

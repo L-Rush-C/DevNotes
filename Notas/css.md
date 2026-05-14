@@ -1,0 +1,299 @@
+---
+nombre: CSS
+logo: >-
+  https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/1280px-CSS3_logo.svg.png
+colores:
+  - '#2350D9'
+  - '#F2F2F2'
+---
+
+# CSS
+
+- CSS sirve para cambiar y diseñar el estilo de la página web, creando un archivo con la extensión .css para vincularlo con un archivo HTML, en el encabezado se agrega la etiqueta  
+`<link rel="stylesheet" href=" ">` en la propiedad href agregas la ubicación donde está el archivo .css.
+
+- En CSS no se utiliza `< >` para crear la etiqueta, simplemente con el nombre es suficiente.
+
+- Para crear un comentario se utiliza:
+```css
+/* comentario */
+```
+
+---
+
+## Selectores
+
+- En CSS para cambiar de color el texto se utiliza:
+```css
+{color: black;}
+```
+
+- Los selectores sirven para llamar un input, etiqueta, etc... y las puedes modificar.
+
+- Para llamar una etiqueta de HTML:
+```css
+h3 {color: red;}
+```
+
+- Otra forma de llamarlo en CSS es con la propiedad **class**
+
+```css
+.uno {color: blue;}
+```
+
+```html
+<h2 class="uno">hola mundo</h2>
+```
+
+- Otra forma es por atributo:
+
+```css
+[hola="mundo"] {color: purple;}
+```
+
+```html
+<h1 hola="mundo"> hola mundo</h1>
+```
+
+- Otra forma de llamarlo es con **id**
+
+```css
+#id001 {color: pink;}
+```
+
+```html
+<h5 id="id001"> Rosado</h5>
+```
+
+- Selector universal:
+
+```css
+* {
+  background: color;
+}
+```
+
+- Rango de selectores:
+
+1. Estilos en línea (atributo style="")
+2. IDs (#id)
+3. Clases (.clase), atributos ([type="text"]), pseudoclases (:hover, :nth-child())
+4. Elementos (div, p, a) y pseudoelementos (::before, ::after)
+
+- **Efecto cascada**:
+
+```css
+p {color: blue;}
+p {color: aquamarine;}
+p {color: green;}
+```
+
+> Se aplica el último valor declarado
+
+---
+
+## Propiedades de Texto
+
+### Font-size
+```css
+p {font-size: 24px;}
+```
+
+### Font-family
+```css
+body {font-family: Arial, sans-serif;}
+```
+
+### Font-style
+```css
+p {font-style: normal;}
+i {font-style: italic;}
+```
+
+```html
+<p> Hola <i>mundo</i></p>
+```
+
+### Font-weight
+```css
+h1 {font-weight: bold;}
+strong {font-weight: bolder;}
+```
+
+### Line-height
+```css
+p {line-height: 1.5em;}
+```
+
+### Text-decoration
+```css
+p {text-decoration: underline;}
+h2 {text-decoration: line-through;}
+```
+
+### Text-transform
+```css
+h1 {text-transform: uppercase;}
+code {text-transform: lowercase;}
+```
+
+### Letter-spacing
+```css
+p {letter-spacing: 0.2em;}
+```
+
+### Word-spacing
+```css
+p {word-spacing: 0.5em;}
+```
+
+### Font-variant
+```css
+h3 {font-variant: small-caps;}
+```
+
+### Text-shadow
+```css
+h1 {text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);}
+```
+
+---
+
+## Layout y Espaciado
+
+### display
+```css
+img {display: block; margin: 0 auto;}
+p {display: inline;}
+```
+
+```html
+<p>parrafo 1</p>
+<p>parrafo 2</p>
+<p>parrafo 3</p>
+<img src="img/001/black" alt="negro">
+```
+
+### margin
+```css
+body {margin: 20px;}
+h1 {margin-top: 30px;}
+```
+
+### padding
+- Es una propiedad que se utiliza para generar espacio dentro de un elemento.
+
+### text-align
+```css
+h1 {text-align: center;}
+```
+
+### border
+```css
+div {border: 2px solid black;}
+```
+
+---
+
+## Flexbox
+
+```css
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+
+```html
+<div class="container">
+  <div> Elemento 1 </div>
+  <div> Elemento 2 </div>
+  <div> Elemento 3 </div>
+</div>
+```
+
+---
+
+## Grid
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+```
+
+```html
+<div class="container">
+  <div> Elemento 1 </div>
+  <div> Elemento 2 </div>
+</div>
+```
+
+---
+
+## Position
+
+```css
+div {
+  position: absolute;
+  top: 50px;
+  left: 100px;
+}
+```
+
+```html
+<div> Este es un elemento posicionado </div>
+```
+
+---
+
+## CSS Eventos
+
+### focus
+```css
+input:focus {border: 2px solid blue;}
+div:focus {background-color: #F0F0F0;}
+```
+
+### hover
+```css
+a:hover {color: red; text-decoration: underline;}
+```
+
+### active
+```css
+button:active {background-color: green; transform: scale(0.9);}
+```
+
+### visited
+```css
+a:visited {color: purple; text-decoration: none;}
+```
+
+### checked
+```css
+input[type="checkbox"]:checked {background-color: #00FF00;}
+```
+
+### target
+```css
+#section1:target {background-color: yellow;}
+```
+
+---
+
+## z-index
+
+```css
+div {
+  position: absolute;
+  z-index: 10;
+}
+```
+
+```html
+<div> Este elemento tiene prioridad en la superposición. </div>
+```
