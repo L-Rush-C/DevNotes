@@ -131,7 +131,9 @@ async function cargarNotaDesdeURL(nombreArchivo, nombrePredeterminado) {
     let nota = contenido;
 
     const lines = contenido.split('\n');
-    if (lines[0] === '---') {
+    console.log(`📋 Primera línea de ${nombreArchivo}:`, JSON.stringify(lines[0]));
+    
+    if (lines[0].trim() === '---') {
       const endIndex = lines.indexOf('---', 1);
       if (endIndex > 0) {
         const frontmatterStr = lines.slice(1, endIndex).join('\n');
