@@ -17,91 +17,92 @@ Algunas etiquetas tienen una etiqueta de abrir y cerrar.
 
 ## Etiquetas básicas
 
-### <h1> </h1>
+### `<h1>` `</h1>`
 
-La etiqueta <h1> sirve para crear títulos en la página web. Existe desde la etiqueta <h1> hasta la etiqueta <h6>.
+La etiqueta `<h1>` sirve para crear títulos en la página web. Existe desde la etiqueta `<h1>` hasta la etiqueta `<h6>`.
 Entre más grande el número, más pequeño es el título.
 
-### <p> </p>
+### `<p>` `</p>`
 
-La etiqueta <p> sirve para crear párrafos en la página web, sin límite.
+La etiqueta `<p>` sirve para crear párrafos en la página web, sin límite.
 
-### <br>
+### `<br>`
 
 No tiene etiqueta de cierre, sirve para crear espacios entre dos etiquetas, para que no estén pegadas extrañamente.
 
 ---
 ## HTML - Formato de Texto y Listas
 
-### <strong> </strong>
+### `<strong>` `</strong>`
 
-La etiqueta **<strong>** sirve para poner en negrilla alguna frase. La etiqueta se puede utilizar dentro de otras etiquetas: (<p>,<li>,<h1>,<h2>,<a>)etc...
+La etiqueta **`<strong>`** sirve para poner en negrilla alguna frase. La etiqueta se puede utilizar dentro de otras etiquetas: (`<p>`, `<li>`, `<h1>`, `<h2>`, `<a>`) etc...
 
-### <em> </em>
+### `<em>` `</em>`
 
-La etiqueta <em> sirve para poner en cursiva o inclinada la frase. Se puede utilizar dentro de otras etiquetas.
+La etiqueta `<em>` sirve para poner en cursiva o inclinada la frase. Se puede utilizar dentro de otras etiquetas.
 
 ```html
 <em> </em>
 ```
-### <u> </u>
 
-La etiqueta <u> sirve para subrayar la frase. Se puede utilizar dentro de otras etiquetas.
+### `<u>` `</u>`
 
-### <sub> </sub>
+La etiqueta `<u>` sirve para subrayar la frase. Se puede utilizar dentro de otras etiquetas.
 
-La etiqueta <sub> sirve para bajar la frase. Se puede utilizar dentro de otras etiquetas.
+### `<sub>` `</sub>`
 
-### <sup> </sup>
+La etiqueta `<sub>` sirve para bajar la frase. Se puede utilizar dentro de otras etiquetas.
 
-La etiqueta <sup> es igual a la de <sub> pero en vez de bajar, sube.
+### `<sup>` `</sup>`
+
+La etiqueta `<sup>` es igual a la de `<sub>` pero en vez de bajar, sube.
 
 
 ---
-## Lista ordenada <ol> </ol> y no ordenada <ul> </ul>
+## Lista ordenada `<ol>` `</ol>` y no ordenada `<ul>` `</ul>`
 
 Para cualquier lista, cada elemento debe ir dentro de una etiqueta `<li>`.
 
 ### Ordenadas (`<ol>`)
-La etiqueta <ol> sirve para crear listas de forma ordenada o números. Puedes crear sin límite.
+La etiqueta `<ol>` sirve para crear listas de forma ordenada o números. Puedes crear sin límite.
 ```html
 <ol>
   <li> Uno </li>          1.uno
   <li> dos </li>          2.dos
-   <li> Tres </li>         3.Tres
+  <li> Tres </li>         3.Tres
 </ol>
 ```
 
 ### No Ordenadas (`<ul>`)
-La etiqueta **<ul>** es igual a la **<ol>** pero en vez de estar enumeradas, están con un punto o otro tipo que desee con la etiqueta **type=""** dentro de la etiqueta **<li>**.
+La etiqueta **`<ul>`** es igual a la **`<ol>`** pero en vez de estar enumeradas, están con un punto o otro tipo que desees con la etiqueta **`type=""`** dentro de la etiqueta **`<li>`**.
 ```html
 <ul>
-  <li type="circle"> uno </li>       
-  <li type="square"> dos </li>      
-  <li type="disc"> Tres </li>       
+  <li type="circle"> uno </li>
+  <li type="square"> dos </li>
+  <li type="disc"> Tres </li>
 </ul>
 ```
 ---
 
 ## Multimedia y Tablas
 
-### <img src=" " alt="">
-La etiqueta <img> sirve para agregar una imagen a la página web.
-Se puede cambiarle el tamaño con la etiqueta height="" que significa altura, y con la etiqueta width="" para cambiar el ancho de la imagen, se colocan dentro de la etiqueta <img> src="link" alt="descripcion de la imagen por si no carga" height="150" width="150".
+### `<img src=" " alt="">`
+La etiqueta `<img>` sirve para agregar una imagen a la página web.
+Se puede cambiarle el tamaño con la etiqueta `height=""` que significa altura, y con la etiqueta `width=""` para cambiar el ancho de la imagen. Se colocan dentro de la etiqueta `<img src="link" alt="descripcion de la imagen por si no carga" height="150" width="150">`.
 
 ```html
-<img src="www.imagen.com / carpeta/imagenes/img1.jpg" alt="nombre" height="200" width="150">`
+<img src="www.imagen.com / carpeta/imagenes/img1.jpg" alt="nombre" height="200" width="150">
 ```
 
-### Tablas (`<table> </table> <tr> </tr> <th> </th> <td> </td>`)
+### Tablas (`<table>` `</table>` `<tr>` `</tr>` `<th>` `</th>` `<td>` `</td>`)
 
-La etiqueta **<table>** sirve para ejecutar o crear una tabla, por debajo al crear una tabla no se aparecen los cuadros. Se tiene que utilizar la propiedad **border=""** y se coloca la cantidad de píxeles de ancho para la tabla que pueda ser visible.
+La etiqueta **`<table>`** sirve para ejecutar o crear una tabla. Por defecto la tabla no muestra bordes, por eso se usa la propiedad **border=""** para que los cuadros sean visibles.
 
-La etiqueta **<tr>** sirve para crear una columna horizontal en la tabla, no será visible porque aún no se ha escogido en cuantas partes va a dividir.
+La etiqueta **`<tr>`** sirve para crear una fila horizontal en la tabla.
 
-La etiqueta **<th>** sirve para crear cuantas casillas tendrá la etiqueta **<tr>**, dependiendo de cuantas etiquetas coloques dentro de la etiqueta **<tr>** será la cantidad de casillas que se creen, la etiqueta **<th>** dentro de ella si escribes, se pone en negrilla o título en la tabla de la columna.
+La etiqueta **`<th>`** sirve para crear celdas de encabezado dentro de una fila `<tr>`. El contenido de `<th>` aparece en negrita.
 
-La etiqueta <td> es lo mismo que <th> pero la frase no está en negrilla.
+La etiqueta **`<td>`** es lo mismo que `<th>`, pero su texto no va en negrita.
 
 ### -colspan=" " rowspan=" "
 
@@ -251,9 +252,9 @@ La propiedad type="date" crea una casilla donde puedes ingresar una fecha en esp
 <input type="date" name="nacimiento">
 ```
 
-### <select>
+### `<select>`
 
-La etiqueta <select> sirve para crear una casilla con materia de selección múltiple.
+La etiqueta `<select>` sirve para crear una casilla con materia de selección múltiple.
 
 ```html
 <select>
@@ -264,9 +265,9 @@ La etiqueta <select> sirve para crear una casilla con materia de selección múl
 </select>
 ```
 
-### <textarea>
+### `<textarea>`
 
-La etiqueta <textarea> crea un área para que el espacio pueda escribir lo que tenga que escribir.
+La etiqueta `<textarea>` crea un área para que el espacio pueda escribir lo que tenga que escribir.
 
 ```html
 <textarea name="conclusion" cols="7" rows="3"></textarea>
