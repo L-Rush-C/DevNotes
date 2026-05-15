@@ -18,16 +18,16 @@ Algunas etiquetas tienen una etiqueta de abrir y cerrar.
 
 ## Etiquetas básicas
 
-### h1
+### <h1>
 
 La etiqueta **<h1>** sirve para crear títulos en la página web. Existe desde la etiqueta **<h1>** hasta la etiqueta **<h6>**.
 Entre más grande el número, más pequeño es el título.
 
-### p
+### <p>
 
-La etiqueta `<p>` sirve para crear párrafos en la página web, sin límite.
+La etiqueta **<p>** sirve para crear párrafos en la página web, sin límite.
 
-### br
+### <br>
 
 No tiene etiqueta de cierre, sirve para crear espacios entre dos etiquetas, para que no estén pegadas extrañamente.
 
