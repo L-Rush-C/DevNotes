@@ -1,5 +1,20 @@
 [
-  { "nombreArchivo": "css.txt", "nombre": "CSS" },
-  { "nombreArchivo": "html.txt", "nombre": "HTML" },
-  { "nombreArchivo": "mysql.txt", "nombre": "MySQL" }
+  {
+    "nombreArchivo": "css.txt",
+    "nombre": "CSS",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/1280px-CSS3_logo.svg.png",
+    "colores": ["#2350D9", "#F2F2F2"]
+  },
+  {
+    "nombreArchivo": "html.txt",
+    "nombre": "HTML",
+    "logo": "https://cdn-icons-png.flaticon.com/512/174/174854.png",
+    "colores": ["#F2380F", "#F2F2F2"]
+  },
+  {
+    "nombreArchivo": "mysql.txt",
+    "nombre": "MySQL",
+    "logo": "https://assets.pipedream.net/s.v0/app_1YMhwo/logo/orig",
+    "colores": ["#03658C", "#F29F05"]
+  }
 ]

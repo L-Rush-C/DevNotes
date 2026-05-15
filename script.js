@@ -95,9 +95,9 @@ async function cargarNotasAutomaticamente() {
     const archivos = await respuesta.json();
     console.log(`✓ Se encontraron ${archivos.length} archivo(s)`);
 
-    // Cargar cada archivo .md
+    // Cargar cada archivo .txt
     for (const item of archivos) {
-      await cargarNotaDesdeURL(item.nombreArchivo, item.nombre);
+      await cargarNotaDesdeURL(item.nombreArchivo, item);
     }
 
     if (estado.lenguajes.length > 0) {
@@ -111,7 +111,7 @@ async function cargarNotasAutomaticamente() {
   }
 }
 
-async function cargarNotaDesdeURL(nombreArchivo, nombrePredeterminado) {
+async function cargarNotaDesdeURL(nombreArchivo, item) {
   try {
     const url = `/DevNotes/Notas/${nombreArchivo}`;
     const respuesta = await fetch(url);
@@ -124,30 +124,23 @@ async function cargarNotaDesdeURL(nombreArchivo, nombrePredeterminado) {
     const contenido = await respuesta.text();
     console.log(`✓ Cargado: ${nombreArchivo}`);
 
-    // Parsear frontmatter
-    let nombre = nombrePredeterminado;
-    let logo = null;
-    let colores = ['#4A90D9'];
+    // Metadata desde index.json
+    const nombre = item.nombre || nombreArchivo.replace(/\.txt$/i, '');
+    const logo = item.logo || null;
+    const colores = Array.isArray(item.colores) && item.colores.length > 0
+      ? item.colores
+      : ['#4A90D9'];
     let nota = contenido;
 
+    // Si el archivo local contiene frontmatter, descartar esa parte.
     const lines = contenido.split('\n');
     if (lines[0].trim() === '---') {
       const endIndex = lines.indexOf('---', 1);
       if (endIndex > 0) {
-        const frontmatterStr = lines.slice(1, endIndex).join('\n');
-        try {
-          const meta = jsyaml.load(frontmatterStr);
-          if (meta.nombre) nombre = meta.nombre;
-          if (meta.logo) logo = meta.logo;
-          if (meta.colores) colores = meta.colores;
-          nota = lines.slice(endIndex + 1).join('\n').trim();
-        } catch (e) {
-          console.warn(`⚠ Error parseando frontmatter de ${nombreArchivo}:`, e);
-        }
+        nota = lines.slice(endIndex + 1).join('\n').trim();
       }
     }
 
-    // Crear objeto de lenguaje
     const lang = {
       id: generarId(),
       nombre,
