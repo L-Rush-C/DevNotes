@@ -47,6 +47,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const colored = colorearCodigo(rawCode);
     return '<pre><code class="dn-code">' + colored + '</code></pre>';
   };
+  renderer.html = function(html) {
+    return html
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  };
   marked.use({ renderer });
 
   cargarMetadatos();
