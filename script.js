@@ -85,7 +85,7 @@ async function cargarNotasAutomaticamente() {
     console.log('📂 Cargando lista de notas desde Notas/index.json...');
     
     // Cargar el index.json
-    const respuesta = await fetch('/DevNotes/Notas/index.json');
+    const respuesta = await fetch('./DevNotes/Notas/index.json');
     if (!respuesta.ok) {
       console.error('❌ No se pudo cargar el index.json');
       notificar('⚠ No se encontró la carpeta de notas');
@@ -113,7 +113,7 @@ async function cargarNotasAutomaticamente() {
 
 async function cargarNotaDesdeURL(nombreArchivo, nombrePredeterminado) {
   try {
-    const url = `/DevNotes/Notas/${nombreArchivo}`;
+    const url = `./Notas/${nombreArchivo}`;
     const respuesta = await fetch(url);
     
     if (!respuesta.ok) {
