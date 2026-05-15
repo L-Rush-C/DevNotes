@@ -131,21 +131,15 @@ async function cargarNotaDesdeURL(nombreArchivo, nombrePredeterminado) {
     let nota = contenido;
 
     const lines = contenido.split('\n');
-    console.log(`📋 Primera línea de ${nombreArchivo}:`, JSON.stringify(lines[0]));
-    
     if (lines[0].trim() === '---') {
       const endIndex = lines.indexOf('---', 1);
       if (endIndex > 0) {
         const frontmatterStr = lines.slice(1, endIndex).join('\n');
         try {
           const meta = jsyaml.load(frontmatterStr);
-          console.log(`🔍 Frontmatter parseado de ${nombreArchivo}:`, meta);
           if (meta.nombre) nombre = meta.nombre;
           if (meta.logo) logo = meta.logo;
-          if (meta.colores) {
-            colores = meta.colores;
-            console.log(`🎨 Colores encontrados:`, colores);
-          }
+          if (meta.colores) colores = meta.colores;
           nota = lines.slice(endIndex + 1).join('\n').trim();
         } catch (e) {
           console.warn(`⚠ Error parseando frontmatter de ${nombreArchivo}:`, e);
