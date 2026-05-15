@@ -660,6 +660,11 @@ textarea.input-campo { resize: vertical; }
   font-size: 0.95rem;
 }
 
+.nota-contenido strong,
+.nota-contenido b {
+  color: var(--texto-primario);
+}
+
 .nota-contenido a {
   color: var(--acento-naranja);
   text-decoration: none;
