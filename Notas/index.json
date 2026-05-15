@@ -1,14 +1,5 @@
 [
-  {
-    "nombreArchivo": "css.md",
-    "nombre": "CSS"
-  },
-  {
-    "nombreArchivo": "html.md",
-    "nombre": "HTML"
-  },
-  {
-    "nombreArchivo": "mysql.md",
-    "nombre": "MySQL"
-  }
+  { "nombreArchivo": "css.txt", "nombre": "CSS" },
+  { "nombreArchivo": "html.txt", "nombre": "HTML" },
+  { "nombreArchivo": "mysql.txt", "nombre": "MySQL" }
 ]
