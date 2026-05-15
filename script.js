@@ -137,9 +137,13 @@ async function cargarNotaDesdeURL(nombreArchivo, nombrePredeterminado) {
         const frontmatterStr = lines.slice(1, endIndex).join('\n');
         try {
           const meta = jsyaml.load(frontmatterStr);
+          console.log(`🔍 Frontmatter parseado de ${nombreArchivo}:`, meta);
           if (meta.nombre) nombre = meta.nombre;
           if (meta.logo) logo = meta.logo;
-          if (meta.colores) colores = meta.colores;
+          if (meta.colores) {
+            colores = meta.colores;
+            console.log(`🎨 Colores encontrados:`, colores);
+          }
           nota = lines.slice(endIndex + 1).join('\n').trim();
         } catch (e) {
           console.warn(`⚠ Error parseando frontmatter de ${nombreArchivo}:`, e);
