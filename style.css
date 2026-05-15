@@ -651,7 +651,7 @@ textarea.input-campo { resize: vertical; }
 
 .nota-contenido h1 { font-size: 1.8rem; font-weight: 700; border-bottom: 1px solid var(--borde-sutil); padding-bottom: 0.5rem; }
 .nota-contenido h2 { font-size: 1.3rem; font-weight: 600; }
-.nota-contenido h3 { font-size: 1.05rem; font-weight: 600; color: var(--texto-secundario); }
+.nota-contenido h3 { font-size: 1.05rem; font-weight: 600; color: var(--texto-primario); }
 
 .nota-contenido p {
   color: var(--texto-secundario);
