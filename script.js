@@ -47,6 +47,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const colored = colorearCodigo(rawCode);
     return '<pre><code class="dn-code">' + colored + '</code></pre>';
   };
+  renderer.codespan = function(text) {
+    const codeText = typeof text === 'string' ? text : (text && text.text ? text.text : String(text));
+    return '<code class="dn-code">' + codeText.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>';
+  };
   marked.use({ renderer });
 
   cargarMetadatos();
@@ -85,7 +89,7 @@ async function cargarNotasAutomaticamente() {
     console.log('📂 Cargando lista de notas desde Notas/index.json...');
     
     // Cargar el index.json
-    const respuesta = await fetch('/DevNotes/Notas/index.json');
+    const respuesta = await fetch('/Notas/index.json');
     if (!respuesta.ok) {
       console.error('❌ No se pudo cargar el index.json');
       notificar('⚠ No se encontró la carpeta de notas');
@@ -113,7 +117,7 @@ async function cargarNotasAutomaticamente() {
 
 async function cargarNotaDesdeURL(nombreArchivo, item) {
   try {
-    const url = `/DevNotes/Notas/${nombreArchivo}`;
+    const url = `/Notas/${nombreArchivo}`;
     const respuesta = await fetch(url);
     
     if (!respuesta.ok) {

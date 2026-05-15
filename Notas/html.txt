@@ -100,9 +100,9 @@ La etiqueta **`<table>`** sirve para ejecutar o crear una tabla. Por defecto la 
 
 La etiqueta **`<tr>`** sirve para crear una fila horizontal en la tabla.
 
-La etiqueta **`<th>`** sirve para crear celdas de encabezado dentro de una fila `<tr>`. El contenido de `<th>` aparece en negrita.
+La etiqueta **`<th>`** sirve para crear celdas de encabezado dentro de una fila **`<tr>`**. El contenido de **`<th>`** aparece en negrita.
 
-La etiqueta **`<td>`** es lo mismo que `<th>`, pero su texto no va en negrita.
+La etiqueta **`<td>`** es lo mismo que **`<th>`**, pero su texto no va en negrita.
 
 ### -colspan=" " rowspan=" "
 
