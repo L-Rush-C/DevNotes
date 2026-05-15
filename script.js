@@ -255,11 +255,36 @@ async function abrirLenguaje(id) {
   renderizarNota(lang.nota);
 }
 
+function escaparHtmlEnMarkdown(texto) {
+  const placeholders = [];
+
+  texto = texto.replace(/(```[\s\S]*?```)/g, (match) => {
+    const key = `@@PLACEHOLDER_${placeholders.length}@@`;
+    placeholders.push(match);
+    return key;
+  });
+
+  texto = texto.replace(/(`[^`]+`)/g, (match) => {
+    const key = `@@PLACEHOLDER_${placeholders.length}@@`;
+    placeholders.push(match);
+    return key;
+  });
+
+  texto = texto.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  placeholders.forEach((value, index) => {
+    texto = texto.replace(`@@PLACEHOLDER_${index}@@`, value);
+  });
+
+  return texto;
+}
+
 function renderizarNota(markdown) {
   const el = document.getElementById('notaContenido');
+  const safeMarkdown = escaparHtmlEnMarkdown(markdown || '');
   el.innerHTML = typeof marked !== 'undefined'
-    ? marked.parse(markdown || '')
-    : `<pre>${markdown}</pre>`;
+    ? marked.parse(safeMarkdown)
+    : `<pre>${safeMarkdown}</pre>`;
 }
 
 // ─── Editor ───────────────────────────────────────────────────────────────────
@@ -296,9 +321,10 @@ function toggleEditor() {
 function previsualizarEditor() {
   const texto = document.getElementById('editorTexto').value;
   const preview = document.getElementById('editorPreview');
+  const safeTexto = escaparHtmlEnMarkdown(texto);
   preview.innerHTML = typeof marked !== 'undefined'
-    ? marked.parse(texto)
-    : texto;
+    ? marked.parse(safeTexto)
+    : safeTexto;
   preview.className = 'editor-preview nota-contenido';
 }
 

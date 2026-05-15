@@ -484,6 +484,17 @@ textarea.input-campo { resize: vertical; }
 
 .link-guia { color: var(--acento-naranja); text-decoration: none; font-size: 13px; }
 
+.tabla-mini {
+  border-collapse: collapse;
+  font-size: 13px;
+  color: var(--texto-secundario);
+}
+
+.tabla-mini th, .tabla-mini td {
+  border: 1px solid var(--borde-sutil);
+  padding: 2px 4px;
+}
+
 /* ─── Pantalla de notas ───────────────────────────────────── */
 .pantalla-notas { animation: entrar 0.2s ease; }
 
