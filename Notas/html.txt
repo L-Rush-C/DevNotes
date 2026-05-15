@@ -34,37 +34,37 @@ No tiene etiqueta de cierre, sirve para crear espacios entre dos etiquetas, para
 ---
 ## HTML - Formato de Texto y Listas
 
-### strong
+### <strong>
 
-La etiqueta **`<strong>`** sirve para poner en negrilla alguna frase. La etiqueta se puede utilizar dentro de otras etiquetas: (`<p>`, `<li>`, `<h1>`, `<h2>`, `<a>`) etc...
+La etiqueta **<strong>** sirve para poner en negrilla alguna frase. La etiqueta se puede utilizar dentro de otras etiquetas: **(<p>,<li>,<h1>,<h2>,<a>)** etc...
 
-### em
+### <em>
 
-La etiqueta `<em>` sirve para poner en cursiva o inclinada la frase. Se puede utilizar dentro de otras etiquetas.
+La etiqueta **<em>** sirve para poner en cursiva o inclinada la frase. Se puede utilizar dentro de otras etiquetas.
 
 ```html
 <em> </em>
 ```
 
-### u
+### <u>
 
-La etiqueta `<u>` sirve para subrayar la frase. Se puede utilizar dentro de otras etiquetas.
+La etiqueta **<u>** sirve para subrayar la frase. Se puede utilizar dentro de otras etiquetas.
 
-### sub
+### <sub>
 
-La etiqueta `<sub>` sirve para bajar la frase. Se puede utilizar dentro de otras etiquetas.
+La etiqueta **<sub>** sirve para bajar la frase. Se puede utilizar dentro de otras etiquetas.
 
-### sup
+### <sup>
 
-La etiqueta `<sup>` es igual a la de `<sub>` pero en vez de bajar, sube.
-
+La etiqueta **<sup>** es igual a la de **<sub>** pero en vez de bajar, sube.
 
 ---
-## Lista ordenada `<ol>` `</ol>` y no ordenada `<ul>` `</ul>`
 
-Para cualquier lista, cada elemento debe ir dentro de una etiqueta `<li>`.
+## Lista ordenada <ol> </ol> y no ordenada <ul> </ul>
 
-### Ordenadas (ol)
+Para cualquier lista, cada elemento debe ir dentro de una etiqueta **<li>**.
+
+### Ordenadas <ol>
 La etiqueta **ol** sirve para crear listas de forma ordenada o números. Puedes crear sin límite.
 ```html
 <ol>
@@ -74,8 +74,8 @@ La etiqueta **ol** sirve para crear listas de forma ordenada o números. Puedes 
 </ol>
 ```
 
-### No Ordenadas (ul)
-La etiqueta **ul** es igual a la **ol** pero en vez de estar enumeradas, están con un punto o otro tipo que desees con el atributo **type=""** dentro de la etiqueta **li**.
+### No Ordenadas <ul>
+La etiqueta **ul** es igual a la **ol** pero en vez de estar enumeradas, están con un punto o otro tipo que desees con el atributo **type=""** dentro de la etiqueta **<li>**.
 ```html
 <ul>
   <li type="circle"> uno </li>
@@ -88,27 +88,27 @@ La etiqueta **ul** es igual a la **ol** pero en vez de estar enumeradas, están 
 ## Multimedia y Tablas
 
 ### img src="" alt=""
-La etiqueta **img** sirve para agregar una imagen a la página web.
+La etiqueta **<img>** sirve para agregar una imagen a la página web.
 Se puede cambiarle el tamaño con la etiqueta **height=""** que significa altura, y con el atributo **width=""** para cambiar el ancho de la imagen.
 
 ```html
 <img src="www.imagen.com / carpeta/imagenes/img1.jpg" alt="nombre" height="200" width="150">
 ```
 
-### Tablas (`<table>` `</table>` `<tr>` `</tr>` `<th>` `</th>` `<td>` `</td>`)
+### Tablas (<table> </table> <tr> </tr> <th> </th> <td> </td>)
 
-La etiqueta **`<table>`** sirve para ejecutar o crear una tabla. Por defecto la tabla no muestra bordes, por eso se usa la propiedad **border=""** para que los cuadros sean visibles.
+La etiqueta **<table>** sirve para ejecutar o crear una tabla. Por defecto la tabla no muestra bordes, por eso se usa la propiedad **border=""** para que los cuadros sean visibles.
 
-La etiqueta **`<tr>`** sirve para crear una fila horizontal en la tabla.
+La etiqueta **<tr>** sirve para crear una fila horizontal en la tabla.
 
-La etiqueta **`<th>`** sirve para crear celdas de encabezado dentro de una fila **`<tr>`**. El contenido de **`<th>`** aparece en negrita.
+La etiqueta **<th>** sirve para crear celdas de encabezado dentro de una fila **<tr>**. El contenido de **<th>** aparece en negrita.
 
-La etiqueta **`<td>`** es lo mismo que **`<th>`**, pero su texto no va en negrita.
+La etiqueta **<td>** es lo mismo que **<th>**, pero su texto no va en negrita.
 
 ### -colspan=" " rowspan=" "
 
-La propiedad **colspan=" "** sirve para unir casillas horizontalmente dependiendo de la cantidad que pongas será la cantidad de casillas que se unan para ser una sola.
-La propiedad rowspan=" " es la misma que la anterior, pero en forma vertical.
+La propiedad **colspan=""** sirve para unir casillas horizontalmente dependiendo de la cantidad que pongas será la cantidad de casillas que se unan para ser una sola.
+La propiedad **rowspan=""** es la misma que la anterior, pero en forma vertical.
 
 ### HTML - Ejemplos de Tablas con colspan y rowspan
 
@@ -150,7 +150,8 @@ La propiedad rowspan=" " es la misma que la anterior, pero en forma vertical.
 ```
 ---
 
-## Formularios e Inputs (`<form>`)
+## Formularios e Inputs (<form>)
+
 ### type="text"
 
 La propiedad **type="text"** en la etiqueta input sirve para crear casillas para que el usuario pueda escribir allí.
@@ -176,19 +177,19 @@ La propiedad **type="checkbox"** sirve para crear una casilla de relleno.
 <input type="checkbox" name="00"> acepto la política
 ```
 ### type="password"
-La propiedad type="password" sirve para crear una casilla, lo escrito dentro de la casilla no se muestra por seguridad.
+La propiedad **type="password"** sirve para crear una casilla, lo escrito dentro de la casilla no se muestra por seguridad.
 ```html
 <input type="password" name="contraseña">
 ```
 ### type="submit"
-La propiedad type="submit" sirve para crear un botón, y la propiedad value="" sirve para poner una palabra dentro del botón.
+La propiedad **type="submit"** sirve para crear un botón, y la propiedad value="" sirve para poner una palabra dentro del botón.
 ```html
 <input type="submit" value="entrar">
 ```
 
 ### type="file"
 
-La propiedad type="file" sirve para subir un archivo a la página web.
+La propiedad **type="file"** sirve para subir un archivo a la página web.
 
 ```html
 <input type="file" name="archivo">
@@ -196,7 +197,7 @@ La propiedad type="file" sirve para subir un archivo a la página web.
 
 ### type="email"
 
-La propiedad type="email" sirve para crear una casilla y que el usuario ingrese su contraseña, la propiedad verifica si es un correo o no por el @.
+La propiedad **type="email"** sirve para crear una casilla y que el usuario ingrese su contraseña, la propiedad verifica si es un correo o no por el @.
 
 ```html
 <label for="email"> ingresa tu email </label>
@@ -204,7 +205,7 @@ La propiedad type="email" sirve para crear una casilla y que el usuario ingrese 
 ```
 
 ### type="search"
-La propiedad type="search" sirve para buscar algo en específico dentro de la página o de una base de datos guardados.
+La propiedad **type="search"** sirve para buscar algo en específico dentro de la página o de una base de datos guardados.
 
 ```html
 <label for="buscar"> digita tu email </label>
@@ -214,7 +215,7 @@ La propiedad type="search" sirve para buscar algo en específico dentro de la p�
 
 ### type="url"
 
-La propiedad type="url" crea una casilla para que el usuario pegue el link de internet y haga la función, la propiedad verifica que es de internet por la estructura de la url.
+La propiedad **type="url"** crea una casilla para que el usuario pegue el link de internet y haga la función, la propiedad verifica que es de internet por la estructura de la url.
 
 ```html
 <input type="url" name="link" placeholder="url">
@@ -222,14 +223,14 @@ La propiedad type="url" crea una casilla para que el usuario pegue el link de in
 
 ### type="tel"
 
-La propiedad type="tel" crea una casilla para que el usuario ingrese un número telefónico, la propiedad verifica que sea digitado por números.
+La propiedad **type="tel"** crea una casilla para que el usuario ingrese un número telefónico, la propiedad verifica que sea digitado por números.
 
 ```html
 <input type="tel" name="telefono" placeholder="telefono">
 ```
 ### type="range"
 
-La propiedad `type="range"` crea una barra limitada para que el usuario pueda usarla y seleccionar la cantidad.
+La propiedad **type="range"** crea una barra limitada para que el usuario pueda usarla y seleccionar la cantidad.
 
 ```html
 <label for="rango"> calificacion </label>
@@ -238,7 +239,7 @@ La propiedad `type="range"` crea una barra limitada para que el usuario pueda us
 
 ### type="color"
 
-La propiedad type="color" crea un cuadro con un color dentro, si le da click aparece la gama de colores y puedes escoger el que quiera.
+La propiedad **type="color"** crea un cuadro con un color dentro, si le da click aparece la gama de colores y puedes escoger el que quiera.
 
 ```html
 <label for="favcolor"> Selecciona el color </label>
@@ -247,15 +248,15 @@ La propiedad type="color" crea un cuadro con un color dentro, si le da click apa
 
 ### type="date"
 
-La propiedad type="date" crea una casilla donde puedes ingresar una fecha en específico.
+La propiedad **type="date"** crea una casilla donde puedes ingresar una fecha en específico.
 
 ```html
 <input type="date" name="nacimiento">
 ```
 
-### `<select>`
+### <select>
 
-La etiqueta `<select>` sirve para crear una casilla con materia de selección múltiple.
+La etiqueta **<select>** sirve para crear una casilla con materia de selección múltiple.
 
 ```html
 <select>
@@ -266,33 +267,33 @@ La etiqueta `<select>` sirve para crear una casilla con materia de selección m�
 </select>
 ```
 
-### `<textarea>`
+### <textarea>
 
-La etiqueta `<textarea>` crea un área para que el espacio pueda escribir lo que tenga que escribir.
+La etiqueta <textarea>** crea un área para que el espacio pueda escribir lo que tenga que escribir.
 
 ```html
 <textarea name="conclusion" cols="7" rows="3"></textarea>
 ```
 
 ### Elementos Adicionales
-- `<label>`: Texto descriptivo vinculado a un input.
-- `placeholder=""`: Texto temporal dentro de la casilla.
-- `value=""`: Crea un texto dentro de un input.
+- **<label>**: Texto descriptivo vinculado a un input.
+- **placeholder=""**: Texto temporal dentro de la casilla.
+- **value=""**: Crea un texto dentro de un input.
 
 ---
 
 ## Estructura Semántica (HTML5)
 Organiza el contenido de forma lógica para los navegadores:
 
-|`<header>`| Encabezado, logos o navegación.|
-|`<nav>`| Bloque de enlaces de navegación.|
-|`<main>`| Contenido principal del documento.|
-|`<section>`| Secciones independientes de contenido.|
-|`<article>`| Contenido autocontenido (post, noticias).|
-|`<aside>`| Contenido lateral o tangencial.|
-|`<footer>`| Pie de página con créditos o contacto.|
+**<header>**| Encabezado, logos o navegación.|
+|**<nav>**| Bloque de enlaces de navegación.|
+|**<main>**| Contenido principal del documento.|
+|**<section>**| Secciones independientes de contenido.|
+|**<article>**| Contenido autocontenido (post, noticias).|
+|**<aside>**| Contenido lateral o tangencial.|
+|**<footer>**| Pie de página con créditos o contacto.|
 
 ---
 
 ### Interactividad
-- Para añadir lógica se usa la etiqueta `<script>`, que permite integrar **JavaScript** para responder a acciones del usuario.
+- Para añadir lógica se usa la etiqueta **<script>**, que permite integrar **JavaScript** u otros para responder a acciones del usuario.
