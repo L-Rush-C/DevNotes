@@ -16,5 +16,11 @@
     "nombre": "MySQL",
     "logo": "https://assets.pipedream.net/s.v0/app_1YMhwo/logo/orig",
     "colores": ["#03658C", "#F29F05"]
+  },
+  {
+    "nombreArchivo": "python.txt",
+    "nombre": "Python",
+    "logo": "https://cdn-icons-png.flaticon.com/512/5968/5968350.png",
+    "colores": ["#306998", "#FFD43B"]
   }
 ]

@@ -1,0 +1,93 @@
+---
+nombre: Python
+logo: https://cdn-icons-png.flaticon.com/512/5968/5968350.png
+colores:
+  - '#306998'
+  - '#FFD43B'
+---
+
+# Python básico
+
+Python es un lenguaje fácil de leer y usar. Se usa para programación web, automatización, datos, inteligencia artificial y más.
+
+## 1. Cómo ejecutar Python
+
+- En terminal:
+  ```bash
+  python3 archivo.py
+  ```
+- En REPL interactivo:
+  ```bash
+  python3
+  ```
+
+## 2. Variables y tipos
+
+- Python no pide declarar tipo:
+  ```python
+  nombre = "Ana"
+  edad = 25
+  precio = 3.99
+  activo = True
+  ```
+- Tipos importantes:
+  - `int` (números enteros)
+  - `float` (números con decimal)
+  - `str` (texto)
+  - `bool` (True / False)
+  - `None` (valor vacío)
+
+## 3. Condicionales
+
+```python
+if edad >= 18:
+    print("Eres mayor de edad")
+elif edad == 17:
+    print("Falta poco")
+else:
+    print("Eres menor de edad")
+```
+
+## 4. Bucles
+
+- Bucle `for`:
+  ```python
+  for i in range(5):
+      print(i)
+  ```
+- Bucle `while`:
+  ```python
+  contador = 0
+  while contador < 3:
+      print(contador)
+      contador += 1
+  ```
+
+## 5. Listas y diccionarios
+
+- Lista:
+  ```python
+  colores = ["rojo", "verde", "azul"]
+  colores.append("amarillo")
+  ```
+- Diccionario:
+  ```python
+  persona = {"nombre": "Ana", "edad": 25}
+  print(persona["nombre"])
+  ```
+
+## 6. Funciones
+
+```python
+def saludar(nombre):
+    return f"Hola, {nombre}!"
+
+print(saludar("Ana"))
+```
+
+## 7. Datos clave
+
+- La indentación es importante: define bloques de código.
+- No necesitas `;` al final de cada línea.
+- Usa `pip install paquete` para agregar librerías.
+- Python es muy usado en datos, web, automatización y aprendizaje automático.
