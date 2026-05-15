@@ -34,11 +34,6 @@ Conjunto de comandos SQL usados para manipular los datos dentro de las tablas, e
 
 Las bases de datos son contenedores que agrupan tablas y otros objetos de la base de datos.
 
-Para ver como esta estructura la base de datos debes hacer lo siguiente:
-
-- Seleccionas la base de datos que quieras ver.
-- das click en Next, Next y Finish y deberá aparecer algo parecido a esto:
-
 #### Crear una base de datos
 ```sql
 CREATE DATABASE nombre_de_la_base_de_datos;
@@ -152,7 +147,7 @@ Para borrar filas de una tabla.
 
 Utiliza la cláusula `WHERE` para especificar qué filas eliminar.
 
-> ⚠️ Nota importante: Si no usas `WHERE`, se borrarán todas las filas.
+> Nota importante: Si no usas `WHERE`, se borrarán todas las filas.
 
 ### Sintaxis
 ```sql
@@ -230,7 +225,7 @@ WHERE estado = 'pendiente' OR fecha_pedido < '2024-01-01';
 
 Los `JOIN` se usan para combinar filas de dos o más tablas basándose en una columna en común.
 
-`ON` se usa para indicar la condición de unión.
+`ON` Se usa para indicar la condición de unión, es decir, qué columnas deben coincidir entre las tablas.
 
 ---
 
@@ -288,16 +283,17 @@ ON TablaA.columna_comun = TablaB.columna_comun;
 
 #### CROSS JOIN
 Devuelve el producto cartesiano entre las tablas.
+Esto significa que combina cada fila de la tabla A con todas las filas de la tabla B (sin condición).
 
 ```sql
 SELECT * FROM TablaA CROSS JOIN TablaB;
 ```
-
+> Es raro usarlo para unir por columnas, más bien para generar combinaciones.
 ---
 
 ## Alias con AS
 
-Se usa para dar un nombre corto o alias a tablas o columnas.
+Se usa para dar un nombre corto o alias a tablas o columnas, para que el código sea más limpio y fácil de leer.
 
 ```sql
 SELECT P.id_pedido, P.total, C.nombre_cliente, C.email

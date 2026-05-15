@@ -6,83 +6,291 @@ colores:
   - '#F2F2F2'
 ---
 
-### Títulos y Párrafos
-* [cite_start]**Títulos (`<h1>` a `<h6>`):** El `<h1>` es el más grande y el `<h6>` el más pequeño[cite: 328, 329].
-* [cite_start]**Párrafos (`<p>`):** Se usan para bloques de texto sin límite[cite: 331].
-* [cite_start]**Salto de línea (`<br>`):** Crea un espacio entre etiquetas sin necesidad de cierre[cite: 334].
-
+### Etiquetas
+Las etiquetas tienen estos símbolos `<>` y dentro se escribe lo que quieres ejecutar.
+Para crear un comentario en el código, sin que aparezca en la página se utiliza `` y dentro escribes lo que quieras.
+Algunas etiquetas tienen una etiqueta de abrir y cerrar.
+```html
+<p> </p>
+```
 ---
 
-## Formato de Texto
-Puedes aplicar estilos visuales directamente con estas etiquetas:
+## Etiquetas básicas
 
-- [cite_start]**Negrita:** `<strong>` frase `</strong>` [cite: 336, 337]
-- [cite_start]*Cursiva:* `<em>` frase `</em>` [cite: 340, 341]
-- [cite_start]<u>Subrayado:</u> `<u>` frase `</u>` [cite: 343, 344]
-- [cite_start]Subíndice: `<sub>` [cite: 345, 346]
-- [cite_start]Superíndice: `<sup>` [cite: 347, 348]
+### <h1> </h1>
+
+La etiqueta <h1> sirve para crear títulos en la página web. Existe desde la etiqueta <h1> hasta la etiqueta <h6>.
+Entre más grande el número, más pequeño es el título.
+
+### <p> </p>
+
+La etiqueta <p> sirve para crear párrafos en la página web, sin límite.
+
+### <br>
+
+No tiene etiqueta de cierre, sirve para crear espacios entre dos etiquetas, para que no estén pegadas extrañamente.
 
 ---
+## HTML - Formato de Texto y Listas
 
-## Listas
-[cite_start]Para cualquier lista, cada elemento debe ir dentro de una etiqueta `<li>`[cite: 350, 381].
+### <strong> </strong>
+
+La etiqueta **<strong>** sirve para poner en negrilla alguna frase. La etiqueta se puede utilizar dentro de otras etiquetas: (<p>,<li>,<h1>,<h2>,<a>)etc...
+
+### <em> </em>
+
+La etiqueta <em> sirve para poner en cursiva o inclinada la frase. Se puede utilizar dentro de otras etiquetas.
+
+```html
+<em> </em>
+```
+### <u> </u>
+
+La etiqueta <u> sirve para subrayar la frase. Se puede utilizar dentro de otras etiquetas.
+
+### <sub> </sub>
+
+La etiqueta <sub> sirve para bajar la frase. Se puede utilizar dentro de otras etiquetas.
+
+### <sup> </sup>
+
+La etiqueta <sup> es igual a la de <sub> pero en vez de bajar, sube.
+
+
+---
+## Lista ordenada <ol> </ol> y no ordenada <ul> </ul>
+
+Para cualquier lista, cada elemento debe ir dentro de una etiqueta `<li>`.
 
 ### Ordenadas (`<ol>`)
-[cite_start]Muestran elementos numerados[cite: 352]:
-1. [cite_start]Elemento uno [cite: 357]
-2. [cite_start]Elemento dos [cite: 359]
+La etiqueta <ol> sirve para crear listas de forma ordenada o números. Puedes crear sin límite.
+```html
+<ol>
+  <li> Uno </li>          1.uno
+  <li> dos </li>          2.dos
+   <li> Tres </li>         3.Tres
+</ol>
+```
 
 ### No Ordenadas (`<ul>`)
-Muestran viñetas. [cite_start]Se puede cambiar el estilo con el atributo `type` (circle, square, disc)[cite: 363, 364].
-
+La etiqueta **<ul>** es igual a la **<ol>** pero en vez de estar enumeradas, están con un punto o otro tipo que desee con la etiqueta **type=""** dentro de la etiqueta **<li>**.
+```html
+<ul>
+  <li type="circle"> uno </li>       
+  <li type="square"> dos </li>      
+  <li type="disc"> Tres </li>       
+</ul>
+```
 ---
 
 ## Multimedia y Tablas
-### Imágenes
-[cite_start]` <img src="link" alt="descripción" width="150" height="150"> ` [cite: 382, 384]
-> [cite_start]**Nota:** `src` es la ruta de la imagen y `alt` es el nombre alternativo[cite: 382, 387].
 
-### Tablas (`<table>`)
-[cite_start]Se componen de filas (`<tr>`), encabezados (`<th>`) y celdas de datos (`<td>`)[cite: 506, 510, 511].
-- [cite_start]**colspan:** Une casillas horizontalmente[cite: 517].
-- [cite_start]**rowspan:** Une casillas verticalmente[cite: 518].
+### <img src=" " alt="">
+La etiqueta <img> sirve para agregar una imagen a la página web.
+Se puede cambiarle el tamaño con la etiqueta height="" que significa altura, y con la etiqueta width="" para cambiar el ancho de la imagen, se colocan dentro de la etiqueta <img> src="link" alt="descripcion de la imagen por si no carga" height="150" width="150".
 
+```html
+<img src="www.imagen.com / carpeta/imagenes/img1.jpg" alt="nombre" height="200" width="150">`
+```
+
+### Tablas (`<table> </table> <tr> </tr> <th> </th> <td> </td>`)
+
+La etiqueta **<table>** sirve para ejecutar o crear una tabla, por debajo al crear una tabla no se aparecen los cuadros. Se tiene que utilizar la propiedad **border=""** y se coloca la cantidad de píxeles de ancho para la tabla que pueda ser visible.
+
+La etiqueta **<tr>** sirve para crear una columna horizontal en la tabla, no será visible porque aún no se ha escogido en cuantas partes va a dividir.
+
+La etiqueta **<th>** sirve para crear cuantas casillas tendrá la etiqueta **<tr>**, dependiendo de cuantas etiquetas coloques dentro de la etiqueta **<tr>** será la cantidad de casillas que se creen, la etiqueta **<th>** dentro de ella si escribes, se pone en negrilla o título en la tabla de la columna.
+
+La etiqueta <td> es lo mismo que <th> pero la frase no está en negrilla.
+
+### -colspan=" " rowspan=" "
+
+La propiedad **colspan=" "** sirve para unir casillas horizontalmente dependiendo de la cantidad que pongas será la cantidad de casillas que se unan para ser una sola.
+La propiedad rowspan=" " es la misma que la anterior, pero en forma vertical.
+
+### HTML - Ejemplos de Tablas con colspan y rowspan
+
+```html
+<table border="1">
+   <tr>
+      <th> Hora </th>
+      <th> Lunes </th>
+      <th> Martes </th>
+   </tr>
+   <tr>
+      <th> 7:00 am </th>
+      <td colspan="2"> Desayuno </td>
+   </tr>
+   <tr>
+      <th> 8:00 am </th>
+      <td> Reunión </td>
+      <td> clase </td>
+   </tr>
+</table>
+```
+```html
+<table border="1">
+  <tr>
+    <th> Hora </th>
+    <th> Lunes </th>
+    <th> Martes </th>
+  </tr>
+  <tr>
+    <th> 7:00 am </th>
+    <td rowspan="2"> Reunión Jefe </td>
+    <td> Desayuno </td>
+  </tr>
+  <tr>
+    <th> 8:00 am </th>
+    <td> informe </td>
+  </tr>
+</table>
+```
 ---
 
 ## Formularios e Inputs (`<form>`)
-[cite_start]Permiten capturar datos del usuario[cite: 576, 577].
+### type="text"
 
-| Tipo de Input | Función |
-| :--- | :--- |
-| `type="text"` | [cite_start]Casilla para texto normal[cite: 390]. |
-| `type="password"` | [cite_start]Oculta caracteres por seguridad[cite: 411]. |
-| `type="email"` | [cite_start]Valida que contenga un `@`[cite: 427]. |
-| `type="radio"` | [cite_start]Selección única (círculo)[cite: 395]. |
-| `type="checkbox"` | [cite_start]Casilla de verificación[cite: 403]. |
-| `type="file"` | [cite_start]Para subir archivos[cite: 421]. |
-| `type="color"` | [cite_start]Selector de colores[cite: 457]. |
-| `type="date"` | [cite_start]Selector de fecha[cite: 464]. |
+La propiedad **type="text"** en la etiqueta input sirve para crear casillas para que el usuario pueda escribir allí.
+```html
+<input type="text" name="nombre">
+<input type="text" name="apellido">
+```
+### type="radio"
+
+La propiedad **type="radio"** sirve para crear una casilla en forma de círculo para poder seleccionarlo.
+
+```html
+<input type="radio" name="sexo"> hombre
+<input type="radio" name="sexo"> mujer
+```
+
+### type="checkbox"
+
+La propiedad **type="checkbox"** sirve para crear una casilla de relleno.
+
+```html
+<input type="checkbox" name="00"> acepto todo lo leído
+<input type="checkbox" name="00"> acepto la política
+```
+### type="password"
+La propiedad type="password" sirve para crear una casilla, lo escrito dentro de la casilla no se muestra por seguridad.
+```html
+<input type="password" name="contraseña">
+```
+### type="submit"
+La propiedad type="submit" sirve para crear un botón, y la propiedad value="" sirve para poner una palabra dentro del botón.
+```html
+<input type="submit" value="entrar">
+```
+
+### type="file"
+
+La propiedad type="file" sirve para subir un archivo a la página web.
+
+```html
+<input type="file" name="archivo">
+```
+
+### type="email"
+
+La propiedad type="email" sirve para crear una casilla y que el usuario ingrese su contraseña, la propiedad verifica si es un correo o no por el @.
+
+```html
+<label for="email"> ingresa tu email </label>
+<input type="email" name="email">
+```
+
+### type="search"
+La propiedad type="search" sirve para buscar algo en específico dentro de la página o de una base de datos guardados.
+
+```html
+<label for="buscar"> digita tu email </label>
+<input type="search" name="buscar" placeholder="buscar...">
+<input type="submit" value="buscar...">
+```
+
+### type="url"
+
+La propiedad type="url" crea una casilla para que el usuario pegue el link de internet y haga la función, la propiedad verifica que es de internet por la estructura de la url.
+
+```html
+<input type="url" name="link" placeholder="url">
+```
+
+### type="tel"
+
+La propiedad type="tel" crea una casilla para que el usuario ingrese un número telefónico, la propiedad verifica que sea digitado por números.
+
+```html
+<input type="tel" name="telefono" placeholder="telefono">
+```
+### type="range"
+
+La propiedad `type="range"` crea una barra limitada para que el usuario pueda usarla y seleccionar la cantidad.
+
+```html
+<label for="rango"> calificacion </label>
+<input type="range" name="rango" min="1" max="5" step="1">
+```
+
+### type="color"
+
+La propiedad type="color" crea un cuadro con un color dentro, si le da click aparece la gama de colores y puedes escoger el que quiera.
+
+```html
+<label for="favcolor"> Selecciona el color </label>
+<input type="color" name="favcolor">
+```
+
+### type="date"
+
+La propiedad type="date" crea una casilla donde puedes ingresar una fecha en específico.
+
+```html
+<input type="date" name="nacimiento">
+```
+
+### <select>
+
+La etiqueta <select> sirve para crear una casilla con materia de selección múltiple.
+
+```html
+<select>
+<option value="01"> A+ </option> 
+<option value="02"> A- </option>
+<option value="03"> O+ </option>
+<option value="04"> O- </option>
+</select>
+```
+
+### <textarea>
+
+La etiqueta <textarea> crea un área para que el espacio pueda escribir lo que tenga que escribir.
+
+```html
+<textarea name="conclusion" cols="7" rows="3"></textarea>
+```
 
 ### Elementos Adicionales
-- [cite_start]**`<label>`:** Texto descriptivo vinculado a un input[cite: 491].
-- [cite_start]**`placeholder`:** Texto temporal dentro de la casilla[cite: 502].
-- [cite_start]**`<select>`:** Lista de selección múltiple con opciones (`<option>`)[cite: 468, 469].
-- [cite_start]**`<textarea>`:** Área de texto grande para párrafos largos[cite: 485].
+- `<label>`: Texto descriptivo vinculado a un input.
+- `placeholder=""`: Texto temporal dentro de la casilla.
+- `value=""`: Crea un texto dentro de un input.
 
 ---
 
 ## Estructura Semántica (HTML5)
-[cite_start]Organiza el contenido de forma lógica para los navegadores[cite: 589]:
+Organiza el contenido de forma lógica para los navegadores:
 
-* [cite_start]**`<header>`:** Encabezado, logos o navegación[cite: 559].
-* [cite_start]**`<nav>`:** Bloque de enlaces de navegación[cite: 614].
-* [cite_start]**`<main>`:** Contenido principal del documento[cite: 617].
-* [cite_start]**`<section>`:** Secciones independientes de contenido[cite: 589, 590].
-* [cite_start]**`<article>`:** Contenido autocontenido (post, noticias)[cite: 598, 599].
-* [cite_start]**`<aside>`:** Contenido lateral o tangencial[cite: 607, 608].
-* [cite_start]**`<footer>`:** Pie de página con créditos o contacto[cite: 615].
+|`<header>`| Encabezado, logos o navegación.|
+|`<nav>`| Bloque de enlaces de navegación.|
+|`<main>`| Contenido principal del documento.|
+|`<section>`| Secciones independientes de contenido.|
+|`<article>`| Contenido autocontenido (post, noticias).|
+|`<aside>`| Contenido lateral o tangencial.|
+|`<footer>`| Pie de página con créditos o contacto.|
 
 ---
 
 ### Interactividad
-[cite_start]Para añadir lógica se usa la etiqueta `<script>`, que permite integrar **JavaScript** para responder a acciones del usuario[cite: 630, 631].
+- Para añadir lógica se usa la etiqueta `<script>`, que permite integrar **JavaScript** para responder a acciones del usuario.

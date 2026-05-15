@@ -29,12 +29,12 @@ colores:
 
 - Los selectores sirven para llamar un input, etiqueta, etc... y las puedes modificar.
 
-- Para llamar una etiqueta de HTML:
+- Para llamar una etiqueta de HTML, se escribe la misma etiqueta, sin <> y se coloca la propiedad de color.
 ```css
 h3 {color: red;}
 ```
 
-- Otra forma de llamarlo en CSS es con la propiedad **class**
+- Otra forma de llamarlo en CSS es con la propiedad **class** escrita dentro de la etiqueta de HTML y para llamarlo se utiliza unpunto (.) y enseguida se coloca el nombre de la clase
 
 ```css
 .uno {color: blue;}
@@ -44,7 +44,7 @@ h3 {color: red;}
 <h2 class="uno">hola mundo</h2>
 ```
 
-- Otra forma es por atributo:
+- Otra forma es por atributo donde tu le colocas el nombre en HTML dentro de la etiqueta, colocas "hola mundo" y en CSS lo llamas con [hola="mundo"]
 
 ```css
 [hola="mundo"] {color: purple;}
@@ -54,7 +54,7 @@ h3 {color: red;}
 <h1 hola="mundo"> hola mundo</h1>
 ```
 
-- Otra forma de llamarlo es con **id**
+- Otra forma de llamarlo es con **id=" "** la propiedad se coloca dentro de la etiqueta y para llamarlo en CSS se utiliza un # y en seguida, colocas el nombre del id
 
 ```css
 #id001 {color: pink;}
@@ -64,7 +64,7 @@ h3 {color: red;}
 <h5 id="id001"> Rosado</h5>
 ```
 
-- Selector universal:
+- Existe una forma de llamar a todas las etiquetas en una sola, se utiliza * y en seguida colocas el atributo, y lo mismo con la etiqueta.
 
 ```css
 * {
@@ -72,14 +72,14 @@ h3 {color: red;}
 }
 ```
 
-- Rango de selectores:
+- Existe un tipo de jerarquia de cada uno de los selectores, donde una etiqueta tiene todas las propiedades, se usan de mayor
 
 1. Estilos en línea (atributo style="")
 2. IDs (#id)
 3. Clases (.clase), atributos ([type="text"]), pseudoclases (:hover, :nth-child())
 4. Elementos (div, p, a) y pseudoelementos (::before, ::after)
 
-- **Efecto cascada**:
+- Cuando hay varias etiquetas en CSS llamando a uno sólo de HTML, sucede el efecto cascada. Lo que sucede sigue la etiqueta tiene todos los atributos de css, quedándose con el último. Va tan rápido que no se alcanza apreciar que toma las demás atributos.
 
 ```css
 p {color: blue;}
@@ -94,16 +94,24 @@ p {color: green;}
 ## Propiedades de Texto
 
 ### Font-size
+- La propiedad **font-size** define el tamaño de las caracteres del texto. Se puede especificar en unidades absolutas como píxeles (px), ems, rem, o en unidades relativas como porcentajes (%) en relación con el tamaño de fuente.
+
 ```css
 p {font-size: 24px;}
 ```
 
 ### Font-family
+
+- La propiedad **font-family** indica la familia tipográfica que se debe utilizar para mostrar el texto. Se puede especificar una lista de nombres de fuentes separadas por comas, en orden de preferencia. Si la primera fuente no está disponible en el sistema del usuario, se utiliza la siguiente de la lista.
+
 ```css
 body {font-family: Arial, sans-serif;}
 ```
 
 ### Font-style
+
+- La propiedad **font-style** define el estilo de la fuente, como normal, cursiva o oblicua.
+
 ```css
 p {font-style: normal;}
 i {font-style: italic;}
@@ -114,44 +122,68 @@ i {font-style: italic;}
 ```
 
 ### Font-weight
+
+- La propiedad **font-weight** controla el grosor de la fuente, desde normal hasta negrita y más pesada. Se puede especificar mediante valores numéricos (100, 200, 300, etc.) o palabras clave como normal, bold, lighter, bolder. 
+
 ```css
 h1 {font-weight: bold;}
 strong {font-weight: bolder;}
 ```
 
 ### Line-height
+
+- La propiedad **line-height** define la distancia vertical entre líneas de texto. Se puede especificar en unidades absolutas o relativas. Un valor mayor aumenta el espacio entre líneas, mientras que un valor menor lo reduce.
+
 ```css
 p {line-height: 1.5em;}
 ```
 
 ### Text-decoration
+
+- Esta propiedad permite agregar decorados al texto, como subrayado, tachado o sobrelínea. Se puede especificar uno o más valores entre underline, line-through, blink.
+
 ```css
 p {text-decoration: underline;}
 h2 {text-decoration: line-through;}
 ```
 
 ### Text-transform
+
+- Esta propiedad permite convertir el texto a diferentes formatos, como mayúsculas, minúsculas o mayúsculas iniciales. Se puede especificar valores como uppercase, lowercase, capitalize, small-caps.
+
 ```css
 h1 {text-transform: uppercase;}
 code {text-transform: lowercase;}
 ```
 
 ### Letter-spacing
+
+- Esta propiedad ajusta el espacio entre las letras individuales del texto. Se puede especificar un valor positivo (+) o negativo (-) en unidades como píxeles, ems o porcentajes. Un valor positivo aumenta el espacio y negativo lo reduce.
+
 ```css
 p {letter-spacing: 0.2em;}
 ```
 
 ### Word-spacing
+
+- Esta propiedad ajusta el espacio entre las palabras del texto. Se puede especificar un valor positivo o negativo en unidades como píxeles, ems o porcentajes. Un valor positivo aumenta el espacio y el negativo lo reduce.
+
 ```css
 p {word-spacing: 0.5em;}
 ```
 
 ### Font-variant
+
+- Esta propiedad controla variaciones especiales de la fuente, como versalitas o pequeñas. Las versalitas se puede especificar valores como normal, small-caps, all-small-caps. 
+
 ```css
 h3 {font-variant: small-caps;}
 ```
 
 ### Text-shadow
+
+- Esta propiedad agrega una sombra al texto, creando un efecto tridimensional. Se puede especificar el color de la sombra, el desplazamiento horizontal y vertical, la extensión del desenfoque y el valor de opacidad.
+
 ```css
 h1 {text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);}
 ```
@@ -161,6 +193,9 @@ h1 {text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);}
 ## Layout y Espaciado
 
 ### display
+
+- Esta propiedad define cómo se muestra un elemento en la página. Puede ser usado para ocultar elementos, mostrarlos en línea o en bloque.
+
 ```css
 img {display: block; margin: 0 auto;}
 p {display: inline;}
@@ -174,20 +209,34 @@ p {display: inline;}
 ```
 
 ### margin
+
+- Esta propiedad controla el espacio en blanco alrededor de un elemento. Se puede especificar para los 4 lados: superior, inferior, izquierda y derecha.
+
 ```css
 body {margin: 20px;}
 h1 {margin-top: 30px;}
 ```
 
 ### padding
-- Es una propiedad que se utiliza para generar espacio dentro de un elemento.
 
+- Es una propiedad que se utiliza para generar espacio dentro de un elemento, es decir, entre el contenido y su borde. A diferencia de "margin" que agrega espacio fuera del borde del elemento.
+
+```css
+h1 {padding: 20px}
+h1 {padding-left: 20px}
+```
 ### text-align
+
+- Esta propiedad alinea el texto dentro de un elemento, puede ser alineado a la izquierda, al centro, a la derecha o justificado.
+
 ```css
 h1 {text-align: center;}
 ```
 
 ### border
+
+- Establece el estilo, grosor y color del borde de un elemento.
+
 ```css
 div {border: 2px solid black;}
 ```
@@ -195,6 +244,8 @@ div {border: 2px solid black;}
 ---
 
 ## Flexbox
+
+- Define un contenedor flexible para alinear elementos de forma eficiente.
 
 ```css
 .container {
@@ -216,6 +267,8 @@ div {border: 2px solid black;}
 
 ## Grid
 
+- Define un sistema de cuadrícula para organizar elementos en filas y columnas.
+
 ```css
 .container {
   display: grid;
@@ -235,6 +288,8 @@ div {border: 2px solid black;}
 
 ## Position
 
+- Define cómo se posiciona un elemento en el documento. Los valores comunes son: static, relative, absolute y fixed.
+
 ```css
 div {
   position: absolute;
@@ -252,39 +307,59 @@ div {
 ## CSS Eventos
 
 ### focus
+
+- Se aplica a un elemento cuando recibe el foco del usuario. Ya sea haciendo click en él o navegando hasta él con el teclado. Permite estilizar su interacción.
+
 ```css
 input:focus {border: 2px solid blue;}
 div:focus {background-color: #F0F0F0;}
 ```
 
 ### hover
+
+- Se aplica a un elemento cuando el cursor del ratón pasa sobre él. Es útil para proporcionar retroalimentación visual al usuario.
+
 ```css
 a:hover {color: red; text-decoration: underline;}
 ```
 
 ### active
+
+- Se aplica a un elemento cuando está activado, normalmente cuando se pulsa o hace click. Permite destacar el botón del ratón. 
+
 ```css
 button:active {background-color: green; transform: scale(0.9);}
 ```
 
 ### visited
+
+- Se aplica a un enlace que ha sido visitado por el usuario. Es útil para distinguir visualmente los enlaces que ya se han accedido.
+
 ```css
 a:visited {color: purple; text-decoration: none;}
 ```
 
 ### checked
+
+- Se aplica a un elemento que está seleccionado, como un checkbox o un radio button. Permite cambiar su apariencia para indicar su estado. 
+
 ```css
 input[type="checkbox"]:checked {background-color: #00FF00;}
 ```
 
 ### target
+
+- Se aplica a un elemento que tiene un identificador "id" que se ha accedido directamente mediante una URL. Se utiliza para resaltar el elemento que se está mostrando actualmente y facilitar la navegación dentro de la página.
+
 ```css
 #section1:target {background-color: yellow;}
 ```
 
 ---
 
-## z-index
+### z-index
+
+- Controla la superposición de elementos (qué elementos aparecen encima). 
 
 ```css
 div {
