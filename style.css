@@ -954,7 +954,7 @@ textarea.input-campo { resize: vertical; }
 
 /* ─── Coloreado de código personalizado ──────────────────── */
 .dn-code {
-  display: block;
+  display: flexbox;
   font-family: var(--fuente-mono);
   font-size: 13px;
   line-height: 1.65;
