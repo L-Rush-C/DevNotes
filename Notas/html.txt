@@ -20,7 +20,7 @@ Algunas etiquetas tienen una etiqueta de abrir y cerrar.
 
 ### h1
 
-La etiqueta `<h1>` sirve para crear títulos en la página web. Existe desde la etiqueta `<h1>` hasta la etiqueta `<h6>`.
+La etiqueta **<h1>** sirve para crear títulos en la página web. Existe desde la etiqueta **<h1>** hasta la etiqueta **<h6>**.
 Entre más grande el número, más pequeño es el título.
 
 ### p
