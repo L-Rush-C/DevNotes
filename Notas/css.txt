@@ -1,7 +1,6 @@
 ---
 nombre: CSS
-logo: >-
-  https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/1280px-CSS3_logo.svg.png
+logo: https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/1280px-CSS3_logo.svg.png
 colores:
   - '#2350D9'
   - '#F2F2F2'
